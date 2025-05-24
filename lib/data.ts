@@ -1,7 +1,7 @@
 const data = {
   headerMenus: [
     {
-      name: "sell your PS titles",
+      name: "Sell Your Console titles",
       href: '/search?tag=todays-deal',
     },
     {
@@ -29,6 +29,38 @@ const data = {
       href: '/page/help',
     },
   ],
+  carousels: [
+   {
+    title: 'Find Players Nearby You',
+    buttonCaption: 'Find now',
+    image: '/images/Untitled design (3).png',
+    url: '/search?category=Search player',
+    isPublished: true,
+  },
+  
+  {
+    title: 'Console Titles near you',
+    buttonCaption: 'See Now',
+    image: '/images/wp1.jpg',
+    url: '/search?category=Titles',
+    isPublished: true,
+  },  
+  {
+    title: 'Best Selling Console',
+    buttonCaption: 'Shop Now',
+    image: '/images/Untitled design (4).png',
+    url: '/search?category=PS',
+    isPublished: true,
+  },
+
+  {
+    title: 'Best accessories ',
+    buttonCaption: 'See More',
+    image: '/images/wp2.png',
+    url: '/search?category=accessories',
+    isPublished: true,
+  },
+],
 }
 
 export default data

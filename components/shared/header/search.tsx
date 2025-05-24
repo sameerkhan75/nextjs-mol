@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select'
 import { APP_NAME } from '@/lib/constants'
 
-const categories = ['Games', 'PS', 'Players', 'accessories']
+const categories = ['Games', 'Console', 'Players', 'accessories']
 
 export default async function Search() {
   return (
