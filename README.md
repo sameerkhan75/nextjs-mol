@@ -12,7 +12,7 @@
 
 ## 📸 Screenshot
 
-![Moltres Homepage Screenshot](./image.png)
+![Moltres Homepage Screenshot](public/images/image.png)
 
 > The main interface showcasing game listings, map-based discovery, and matchmaking features.
 
