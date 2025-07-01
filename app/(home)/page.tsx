@@ -1,23 +1,9 @@
 import { HomeCard } from '@/components/shared/home/home-card'
 import { HomeCarousel } from '@/components/shared/home/home-carousel'
-import { getAllCategories,getProductsForCard } from '@/lib/actions/product.actions'
 import data from '@/lib/data'
-import { toSlug } from '@/lib/utils'
 
-export default async function Page() {
-  const categories = (await getAllCategories()).slice(0, 4)
-  const newArrivals = await getProductsForCard({
-    tag: 'new-arrival',
-    limit: 4,
-  })
-  const featureds = await getProductsForCard({
-    tag: 'featured',
-    limit: 4,
-  })
-  const bestSellers = await getProductsForCard({
-    tag: 'best-seller',
-    limit: 4,
-  })
+export default function Page() {
+  // Use the first 4 products from data.ts for the categories to explore
   const cards = [
     {
       title: 'Categories to explore',
@@ -25,35 +11,11 @@ export default async function Page() {
         text: 'See More',
         href: '/search',
       },
-      items: categories.map((category) => ({
-        name: category,
-        image: `/images/${toSlug(category)}.jpg`,
-        href: `/search?category=${category}`,
+      items: data.products.slice(0, 4).map((product) => ({
+        name: product.name,
+        image: product.images[0],
+        href: `/search?category=${product.category}`,
       })),
-    },
-    {
-      title: 'Explore New Arrivals',
-      items: newArrivals,
-      link: {
-        text: 'View All',
-        href: '/search?tag=new-arrival',
-      },
-    },
-    {
-      title: 'Discover Best Sellers',
-      items: bestSellers,
-      link: {
-        text: 'View All',
-        href: '/search?tag=new-arrival',
-      },
-    },
-    {
-      title: 'Featured Products',
-      items: featureds,
-      link: {
-        text: 'Shop Now',
-        href: '/search?tag=new-arrival',
-      },
     },
   ]
 
@@ -66,4 +28,3 @@ export default async function Page() {
     </>
   )
 }
-

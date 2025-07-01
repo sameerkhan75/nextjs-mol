@@ -16,24 +16,24 @@ type CardItem = {
 
 export function HomeCard({ cards }: { cards: CardItem[] }) {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-4'>
+    <div className='w-full'>
       {cards.map((card) => (
-        <Card key={card.title} className='rounded-none flex flex-col'>
-          <CardContent className='p-4 flex-1'>
+        <Card key={card.title} className='rounded-none flex flex-col w-full'>
+          <CardContent className='p-4 flex-1 w-full'>
             <h3 className='text-xl font-bold mb-4'>{card.title}</h3>
-            <div className='grid grid-cols-2 gap-4'>
+            <div className='grid grid-cols-4 gap-4 w-full'>
               {card.items.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className='flex flex-col'
+                  className='flex flex-col w-full'
                 >
                   <Image
                     src={item.image}
                     alt={item.name}
-                    className='aspect-square object-scale-down max-w-full h-auto mx-auto'
-                    height={120}
-                    width={120}
+                    className='aspect-[16/9] object-cover w-full h-auto mx-auto'
+                    height={220}
+                    width={400}
                   />
                   <p className='text-center text-sm whitespace-nowrap overflow-hidden text-ellipsis'>
                     {item.name}
