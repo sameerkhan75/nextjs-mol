@@ -6,7 +6,7 @@ export default function Page() {
   // Use the first 4 products from data.ts for the categories to explore
   const cards = [
     {
-      title: 'Categories to explore',
+      title: 'Explore diverse gaming ecosystems',
       link: {
         text: 'See More',
         href: '/search',
