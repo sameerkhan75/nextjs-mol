@@ -32,7 +32,7 @@ const products: IProductInput[] = [
       name: 'Custom Gaming PC - Intel i9 RTX 4080',
       slug: toSlug('Custom Gaming PC - Intel i9 RTX 4080'),
       category: 'PC Builds',
-      images: ['/images/cpuz.jpeg'],
+      images: ['/images/pcf.jpeg'],
       tags: ['featured'],
       isPublished: true,
       price: 1899,
