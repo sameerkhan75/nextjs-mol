@@ -3,6 +3,7 @@
 import { connectToDatabase } from '@/lib/db'
 import Product, { IProduct } from '@/lib/db/models/product.model'
 import { PAGE_SIZE } from '../constants'
+import Link from 'next/link'
 
 export async function getAllCategories() {
   await connectToDatabase()
