@@ -7,6 +7,7 @@ import { IProduct } from '@/lib/db/models/product.model'
 
 import Rating from './rating'
 import ProductPrice from './product-price'
+import ImageHover from './image-hover'
 
 const ProductCard = ({
   product,
@@ -97,3 +98,7 @@ const ProductCard = ({
 }
 
 export default ProductCard
+
+function formatNumber(numReviews: number): React.ReactNode {
+    throw new Error('Function not implemented.')
+}
