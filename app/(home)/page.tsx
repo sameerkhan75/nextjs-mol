@@ -14,7 +14,7 @@ export default function Page() {
       items: data.products.slice(0, 4).map((product) => ({
         name: product.name,
         image: product.images[0],
-        href: `/search?category=${product.category}`,
+        href: `/product/${product.slug}`,
       })),
     },
   ]
