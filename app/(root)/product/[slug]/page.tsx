@@ -8,6 +8,7 @@ import SelectVariant from '@/components/shared/product/select-variant'
 import ProductPrice from '@/components/shared/product/product-price'
 import ProductGallery from '@/components/shared/product/product-gallary'
 import { Separator } from '@/components/ui/separator'
+import Rating from '@/components/shared/product/rating'
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>
