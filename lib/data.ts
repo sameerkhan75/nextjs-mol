@@ -105,8 +105,116 @@ const products: IProductInput[] = [
       sizes: [],
       colors: ['White', 'Black'],
       reviews: [],
-    }
-  ]
+    },
+  
+
+      {
+        name: "Marvel's Spider-Man",
+        slug: toSlug("Marvel's Spider-Man"),
+        category: 'games',
+        images: ['/images/spid.jpg'],
+        tags: ['used', 'action'],
+        isPublished: true,
+        price: 950,
+        listPrice: 1399,
+        brand: 'Insomniac Games',
+        avgRating: 4.7,
+        numReviews: 84,
+        ratingDistribution: [
+          { rating: 1, count: 1 },
+          { rating: 2, count: 3 },
+          { rating: 3, count: 5 },
+          { rating: 4, count: 20 },
+          { rating: 5, count: 55 }
+        ],
+        numSales: 160,
+        countInStock: 3,
+        description: "Swing through New York City as Spider-Man in this high-adrenaline open-world action game.",
+        sizes: [],
+        colors: [],
+        reviews: []
+      },
+      {
+        name: "God of War: Ragnarök",
+        slug: toSlug("God of War: Ragnarök"),
+        category: 'games',
+        images: ['/images/god.jpg'],
+        tags: ['used', 'rpg'],
+        isPublished: true,
+        price: 1200,
+        listPrice: 1999,
+        brand: 'Santa Monica Studio',
+        avgRating: 4.9,
+        numReviews: 142,
+        ratingDistribution: [
+          { rating: 1, count: 0 },
+          { rating: 2, count: 1 },
+          { rating: 3, count: 2 },
+          { rating: 4, count: 15 },
+          { rating: 5, count: 124 }
+        ],
+        numSales: 280,
+        countInStock: 2,
+        description: "Join Kratos and Atreus in an epic mythological journey through the Norse realms in this critically acclaimed RPG.",
+        sizes: [],
+        colors: [],
+        reviews: []
+      },
+      {
+        name: "Red Dead Redemption II",
+        slug: toSlug("Red Dead Redemption II"),
+        category: 'games',
+        images: ['/images/rdr.jpg'],
+        tags: ['used', 'open-world'],
+        isPublished: true,
+        price: 899,
+        listPrice: 1599,
+        brand: 'Rockstar Games',
+        avgRating: 4.8,
+        numReviews: 96,
+        ratingDistribution: [
+          { rating: 1, count: 2 },
+          { rating: 2, count: 2 },
+          { rating: 3, count: 6 },
+          { rating: 4, count: 25 },
+          { rating: 5, count: 61 }
+        ],
+        numSales: 190,
+        countInStock: 4,
+        description: "Live the outlaw life in Rockstar's sprawling Western saga, featuring stunning visuals and gripping storytelling.",
+        sizes: [],
+        colors: [],
+        reviews: []
+      },
+      {
+        name: "The Last of Us Part II Remastered",
+        slug: toSlug("The Last of Us Part II Remastered"),
+        category: 'games',
+        images: ['/images/lou.jpg'],
+        tags: ['used', 'remastered'],
+        isPublished: true,
+        price: 1199,
+        listPrice: 1799,
+        brand: 'Naughty Dog',
+        avgRating: 4.6,
+        numReviews: 105,
+        ratingDistribution: [
+          { rating: 1, count: 3 },
+          { rating: 2, count: 5 },
+          { rating: 3, count: 8 },
+          { rating: 4, count: 25 },
+          { rating: 5, count: 64 }
+        ],
+        numSales: 220,
+        countInStock: 2,
+        description: "A beautifully remastered emotional rollercoaster, follow Ellie in a post-apocalyptic survival journey.",
+        sizes: [],
+        colors: [],
+        reviews: []
+      }
+    ];
+       
+  
   
 const data: Data = {
   headerMenus: [
