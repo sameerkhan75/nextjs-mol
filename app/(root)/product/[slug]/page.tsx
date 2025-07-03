@@ -38,12 +38,6 @@ export default async function ProductDetails(props: {
 
   const product = await getProductBySlug(slug)
 
-  const relatedProducts = await getRelatedProductsByCategory({
-    category: product.category,
-    productId: product._id,
-    page: Number(page || '1'),
-  })
-
   return (
     <div>
       <section>
