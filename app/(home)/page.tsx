@@ -17,6 +17,25 @@ export default function Page() {
         href: `/product/${product.slug}`,
       })),
     },
+    {
+      title: 'Games near you',
+      link: {
+        text: 'See More',
+        href: '/search?category=games',
+      },
+      items: data.products
+        .filter((product) => [
+          "God of War: Ragnarök",
+          "Marvel's Spider-Man",
+          "Red Dead Redemption II",
+          "The Last of Us Part II Remastered"
+        ].includes(product.name))
+        .map((product) => ({
+          name: product.name,
+          image: product.images[0],
+          href: `/product/${product.slug}`,
+        })),
+    },
   ]
 
   return (
