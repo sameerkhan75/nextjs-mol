@@ -58,7 +58,7 @@ const ProductCard = ({
       </Link>
       <div className='flex gap-2 justify-center'>
         <Rating rating={product.avgRating} />
-        <span>({formatNumber(product.numReviews)})</span>
+        <span>({product.numReviews})</span>
       </div>
 
       <ProductPrice
@@ -98,7 +98,3 @@ const ProductCard = ({
 }
 
 export default ProductCard
-
-function formatNumber(numReviews: number): React.ReactNode {
-    throw new Error('Function not implemented.')
-}
