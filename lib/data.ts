@@ -164,7 +164,7 @@ const products: IProductInput[] = [
         name: "Red Dead Redemption II",
         slug: toSlug("Red Dead Redemption II"),
         category: 'games',
-        images: ['/images/rdr.jpg'],
+        images: ['/images/r2.jpg','/images/rdr.jpg'],
         tags: ['used', 'open-world'],
         isPublished: true,
         price: 899,
