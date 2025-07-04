@@ -37,12 +37,18 @@ export default async function ProductDetails(props: {
 
   const product = await getProductBySlug(slug)
 
+  if (!product) {
+    return <div>Product not found</div>;
+  }
+
   return (
     <div>
       <section>
         <div className='grid grid-cols-1 md:grid-cols-5  '>
           <div className='col-span-2'>
-            <ProductGallery images={product.images} />
+            {product.images && product.images.length > 0 && (
+              <ProductGallery images={product.images} />
+            )}
           </div>
 
           <div className='flex w-full flex-col gap-2 md:p-5 col-span-2'>
