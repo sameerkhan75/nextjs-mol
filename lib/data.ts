@@ -211,7 +211,34 @@ const products: IProductInput[] = [
         sizes: [],
         colors: [],
         reviews: []
+      },
+      {
+        name: "PowerA Twin Charging Station for PS5 DualSense",
+        slug: toSlug("PowerA Twin Charging Station for PS5 DualSense"),
+        category: 'accessories',
+        images: ['/images/ac1.jpg','/images/ac2.jpg','/images/ac3.jpg','/images/ac4.jpg','/images/ac5.jpg'],
+        tags: ['new', 'officially licensed'],
+        isPublished: true,
+        price: 999,
+        listPrice: 1799,
+        brand: 'PowerA',
+        avgRating: 4.6,
+        numReviews: 26,
+        ratingDistribution: [
+          { rating: 1, count: 1 },
+          { rating: 2, count: 2 },
+          { rating: 3, count: 3 },
+          { rating: 4, count: 8 },
+          { rating: 5, count: 12 }
+        ],
+        numSales: 100,
+        countInStock: 15,
+        description: "A sleek and reliable dual charging dock for PS5 controllers, featuring fast charging, LED indicators, and an officially licensed vertical design.",
+        sizes: [],
+        colors: [],
+        reviews: []
       }
+      
     ];
        
   
@@ -268,10 +295,10 @@ const data: Data = {
   },
 
   {
-    title: 'Best accessories ',
+    title: 'Best accessories near you',
     buttonCaption: 'See More',
     image: '/images/wp2.png',
-    url: '/search?category=accessories',
+    url: '/product/powera-twin-charging-station-for-ps5-dualsense',
     isPublished: true,
   },
 ],
