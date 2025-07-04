@@ -1,7 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card'
 import {
   getProductBySlug,
-  getRelatedProductsByCategory,
 } from '@/lib/actions/product.actions'
 
 import SelectVariant from '@/components/shared/product/select-variant'
@@ -30,7 +29,7 @@ export default async function ProductDetails(props: {
 }) {
   const searchParams = await props.searchParams
 
-  const { page, color, size } = searchParams
+  const { color, size } = searchParams
 
   const params = await props.params
 
