@@ -68,7 +68,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
       iconAnchor: [10, 10],
     });
 
-    const userMarker = L.marker([userLocation.lat, userLocation.lng], { icon: userIcon })
+    L.marker([userLocation.lat, userLocation.lng], { icon: userIcon })
       .addTo(map)
       .bindPopup('<b>Your Location</b><br>You are here');
 
