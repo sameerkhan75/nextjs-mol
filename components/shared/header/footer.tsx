@@ -21,9 +21,10 @@ export default function Footer() {
 
       <div className='p-4'>
         <div className='flex justify-center gap-3 text-sm'>
-          <Link href='/page/conditions-of-use'>Conditions of Use</Link>
-          <Link href='/page/privacy-policy'>Privacy Notice</Link>
-          <Link href='/page/help'>Help</Link>
+          <p>Please dispose of e-waste and plastic waste responsibly.
+            For more information or e-waste pick up, please call 1800 5 7267864
+          </p>
+
         </div>
 
         <div className='flex justify-center text-sm'>
@@ -31,7 +32,8 @@ export default function Footer() {
         </div>
 
         <div className='mt-8 flex justify-center text-sm text-gray-400'>
-          123, Main Street, Mumbai | +91 8630900119
+        Registered Office Address: 6th Floor, DLF Centre, Sansad Marg,
+        New Delhi-110001 | 8630900119
         </div>
       </div>
     </footer>
