@@ -275,7 +275,7 @@ const data: Data = {
     title: 'Find Players Nearby You',
     buttonCaption: 'Find now',
     image: '/images/Untitled design (3).png',
-    url: '/search?category=Search player',
+    url: '/search/players',
     isPublished: true,
   },
   
