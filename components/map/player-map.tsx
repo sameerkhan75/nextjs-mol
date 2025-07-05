@@ -65,7 +65,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
 
   // Generate mock players based on user location
   const generateMockPlayers = (userLat: number, userLng: number): Player[] => {
-    const games = ['FIFA 24', 'Call of Duty', 'Fortnite', 'Apex Legends', 'Valorant', 'League of Legends', 'Dota 2', 'CS:GO'];
+    const games = ['FIFA 24', 'Call of Duty', 'Fortnite', 'God of War: Ragnarök', 'Valorant', 'GTA 5', 'Marvels Spider-Man', 'CS:GO'];
     const names = [
       'Alex_Gamer', 'Sarah_Pro', 'Mike_Player', 'Emma_Gamer', 'John_Doe',
       'Lisa_Player', 'David_Pro', 'Anna_Gamer', 'Tom_Player', 'Kate_Pro',
