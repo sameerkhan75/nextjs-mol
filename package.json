@@ -28,6 +28,8 @@
     "react-dom": "^19.0.0",
     "react-leaflet": "^5.0.0",
     "react-medium-image-zoom": "^5.2.14",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "tailwind-merge": "^3.3.0",
     "zod": "^3.25.28"
   },

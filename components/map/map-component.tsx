@@ -3,12 +3,26 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Player, UserLocation } from '@/types/map';
-import { formatDistance } from '@/lib/map-utils';
+
+interface Player {
+  id: string;
+  name: string;
+  game: string;
+  location: {
+    lat: number;
+    lng: number;
+  };
+  distance: number;
+  isOnline: boolean;
+  lastSeen: string;
+  avatar?: string;
+  level?: number;
+  achievements?: string[];
+}
 
 interface MapComponentProps {
   players: Player[];
-  userLocation: UserLocation | null;
+  userLocation: { lat: number; lng: number } | null;
   className?: string;
 }
 
@@ -16,6 +30,14 @@ export default function MapComponent({ players, userLocation, className }: MapCo
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.Marker[]>([]);
+
+  // Format distance for display
+  const formatDistance = (distance: number): string => {
+    if (distance < 1) {
+      return `${Math.round(distance * 1000)}m`;
+    }
+    return `${distance.toFixed(1)}km`;
+  };
 
   useEffect(() => {
     if (!mapRef.current || !userLocation) return;
@@ -87,7 +109,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
       const marker = L.marker([player.location.lat, player.location.lng], { icon: playerIcon })
         .addTo(map)
         .bindPopup(`
-          <div style="min-width: 200px;">
+          <div style="min-width: 250px;">
             <h3 style="margin: 0 0 8px 0; color: #1f2937; font-weight: 600;">${player.name}</h3>
             <p style="margin: 0 0 4px 0; color: #6b7280; font-size: 14px;">
               <strong>Game:</strong> ${player.game}
@@ -101,10 +123,15 @@ export default function MapComponent({ players, userLocation, className }: MapCo
                 ${player.isOnline ? 'Online' : 'Offline'}
               </span>
             </p>
+            ${player.level ? `<p style="margin: 0 0 4px 0; color: #3b82f6; font-size: 14px;"><strong>Level:</strong> ${player.level}</p>` : ''}
+            ${player.achievements && player.achievements.length > 0 ? `
+              <p style="margin: 0 0 4px 0; color: #6b7280; font-size: 14px;">
+                <strong>Achievements:</strong> ${player.achievements.join(', ')}
+              </p>
+            ` : ''}
             <p style="margin: 0; color: #9ca3af; font-size: 12px;">
               Last seen: ${player.lastSeen}
             </p>
-            ${player.level ? `<p style="margin: 0; color: #3b82f6; font-size: 12px;">Level ${player.level}</p>` : ''}
           </div>
         `);
 
@@ -179,7 +206,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
       const marker = L.marker([player.location.lat, player.location.lng], { icon: playerIcon })
         .addTo(mapInstanceRef.current!)
         .bindPopup(`
-          <div style="min-width: 200px;">
+          <div style="min-width: 250px;">
             <h3 style="margin: 0 0 8px 0; color: #1f2937; font-weight: 600;">${player.name}</h3>
             <p style="margin: 0 0 4px 0; color: #6b7280; font-size: 14px;">
               <strong>Game:</strong> ${player.game}
@@ -193,10 +220,15 @@ export default function MapComponent({ players, userLocation, className }: MapCo
                 ${player.isOnline ? 'Online' : 'Offline'}
               </span>
             </p>
+            ${player.level ? `<p style="margin: 0 0 4px 0; color: #3b82f6; font-size: 14px;"><strong>Level:</strong> ${player.level}</p>` : ''}
+            ${player.achievements && player.achievements.length > 0 ? `
+              <p style="margin: 0 0 4px 0; color: #6b7280; font-size: 14px;">
+                <strong>Achievements:</strong> ${player.achievements.join(', ')}
+              </p>
+            ` : ''}
             <p style="margin: 0; color: #9ca3af; font-size: 12px;">
               Last seen: ${player.lastSeen}
             </p>
-            ${player.level ? `<p style="margin: 0; color: #3b82f6; font-size: 12px;">Level ${player.level}</p>` : ''}
           </div>
         `);
 
