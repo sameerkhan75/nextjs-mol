@@ -80,7 +80,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
       'Valorant', 'GTA 5', 'Marvels Spider-Man', 'CS:GO', 'Red Dead Redemption II',
       'The Last of Us Part II', 'Cyberpunk 2077', 'Assassins Creed Valhalla',
       'FIFA 23', 'Call of Duty: Warzone', 'Apex Legends', 'Overwatch 2',
-      'Minecraft', 'Among Us', 'Fall Guys', 'Rocket League'
+      'Minecraft', 'Among Us','Rocket League'
     ];
     
     const platforms = ['PS5', 'PS4', 'Xbox', 'PC', 'Nintendo Switch'];
@@ -93,7 +93,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
       
       for (let i = 0; i < numGames; i++) {
         const gameName = allGames[Math.floor(Math.random() * allGames.length)];
-        const price = Math.floor(Math.random() * 50) + 10; // $10-$60
+        const price = Math.floor(Math.random() * 601) + 400; // ₹400-₹1000 inclusive
         const condition = conditions[Math.floor(Math.random() * conditions.length)] as GameForSale['condition'];
         const platform = platforms[Math.floor(Math.random() * platforms.length)] as GameForSale['platform'];
         
@@ -218,7 +218,27 @@ export default function PlayerMap({ className }: PlayerMapProps) {
   };
 
   useEffect(() => {
-    // Get user location and generate mock players
+    // Try to load players from sessionStorage
+    const sessionKey = 'mockPlayers';
+    const sessionLocationKey = 'mockPlayersLocation';
+    const storedPlayers = typeof window !== 'undefined' ? sessionStorage.getItem(sessionKey) : null;
+    const storedLocation = typeof window !== 'undefined' ? sessionStorage.getItem(sessionLocationKey) : null;
+
+    function saveToSession(players: Player[], location: { lat: number; lng: number }) {
+      sessionStorage.setItem(sessionKey, JSON.stringify(players));
+      sessionStorage.setItem(sessionLocationKey, JSON.stringify(location));
+    }
+
+    function loadFromSession() {
+      try {
+        const players = storedPlayers ? JSON.parse(storedPlayers) : null;
+        const location = storedLocation ? JSON.parse(storedLocation) : null;
+        return { players, location };
+      } catch {
+        return { players: null, location: null };
+      }
+    }
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -226,12 +246,26 @@ export default function PlayerMap({ className }: PlayerMapProps) {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
-          setUserLocation(location);
-          
-          // Generate mock players around user location
+
+          // Check if we already have players for this location
+          const { players: sessionPlayers, location: sessionLoc } = loadFromSession();
+          if (
+            sessionPlayers && sessionLoc &&
+            Math.abs(sessionLoc.lat - location.lat) < 0.01 &&
+            Math.abs(sessionLoc.lng - location.lng) < 0.01
+          ) {
+            setUserLocation(sessionLoc);
+            setPlayers(sessionPlayers);
+            setFilteredPlayers(sessionPlayers);
+            setIsLoading(false);
+            return;
+          }
+
+          // Generate and save new mock players
           const mockPlayers = generateMockPlayers(location.lat, location.lng);
           const sortedPlayers = mockPlayers.sort((a, b) => a.distance - b.distance);
-          
+          saveToSession(sortedPlayers, location);
+          setUserLocation(location);
           setPlayers(sortedPlayers);
           setFilteredPlayers(sortedPlayers);
           setIsLoading(false);
@@ -240,11 +274,26 @@ export default function PlayerMap({ className }: PlayerMapProps) {
           console.error('Error getting location:', error);
           // Default to NYC coordinates
           const defaultLocation = { lat: 40.7128, lng: -74.0060 };
-          setUserLocation(defaultLocation);
-          
+
+          // Check if we already have players for this location
+          const { players: sessionPlayers, location: sessionLoc } = loadFromSession();
+          if (
+            sessionPlayers && sessionLoc &&
+            Math.abs(sessionLoc.lat - defaultLocation.lat) < 0.01 &&
+            Math.abs(sessionLoc.lng - defaultLocation.lng) < 0.01
+          ) {
+            setUserLocation(sessionLoc);
+            setPlayers(sessionPlayers);
+            setFilteredPlayers(sessionPlayers);
+            setIsLoading(false);
+            return;
+          }
+
+          // Generate and save new mock players
           const mockPlayers = generateMockPlayers(defaultLocation.lat, defaultLocation.lng);
           const sortedPlayers = mockPlayers.sort((a, b) => a.distance - b.distance);
-          
+          saveToSession(sortedPlayers, defaultLocation);
+          setUserLocation(defaultLocation);
           setPlayers(sortedPlayers);
           setFilteredPlayers(sortedPlayers);
           setIsLoading(false);
@@ -257,11 +306,22 @@ export default function PlayerMap({ className }: PlayerMapProps) {
       );
     } else {
       const defaultLocation = { lat: 40.7128, lng: -74.0060 };
-      setUserLocation(defaultLocation);
-      
+      const { players: sessionPlayers, location: sessionLoc } = loadFromSession();
+      if (
+        sessionPlayers && sessionLoc &&
+        Math.abs(sessionLoc.lat - defaultLocation.lat) < 0.01 &&
+        Math.abs(sessionLoc.lng - defaultLocation.lng) < 0.01
+      ) {
+        setUserLocation(sessionLoc);
+        setPlayers(sessionPlayers);
+        setFilteredPlayers(sessionPlayers);
+        setIsLoading(false);
+        return;
+      }
       const mockPlayers = generateMockPlayers(defaultLocation.lat, defaultLocation.lng);
       const sortedPlayers = mockPlayers.sort((a, b) => a.distance - b.distance);
-      
+      saveToSession(sortedPlayers, defaultLocation);
+      setUserLocation(defaultLocation);
       setPlayers(sortedPlayers);
       setFilteredPlayers(sortedPlayers);
       setIsLoading(false);
@@ -297,7 +357,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
       </div>
 
       {/* Search and Filter */}
-      <Card>
+      <Card className="relative z-20">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Search className="h-5 w-5" />
@@ -321,7 +381,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
                 <SelectTrigger>
                   <SelectValue placeholder="Select game" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="z-[9999]">
                   <SelectItem value="all">All Games</SelectItem>
                   {games.map((game) => (
                     <SelectItem key={game} value={game}>
@@ -342,7 +402,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
                 <SelectTrigger>
                   <SelectValue placeholder="Select game for sale" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="z-[9999]">
                   <SelectItem value="all">All Games for Sale</SelectItem>
                   {gamesForSale.map((game) => (
                     <SelectItem key={game} value={game}>
@@ -358,7 +418,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="z-[9999]">
                   <SelectItem value="2">2 km</SelectItem>
                   <SelectItem value="5">5 km</SelectItem>
                   <SelectItem value="10">10 km</SelectItem>
@@ -418,7 +478,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
       </Card>
 
       {/* Map */}
-      <Card>
+      <Card className="relative z-10">
         <CardContent className="p-0">
           {isLoading ? (
             <div className="w-full h-96 bg-gray-100 animate-pulse rounded-lg flex items-center justify-center">
@@ -489,7 +549,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
                           <div key={index} className="bg-white p-3 rounded border">
                             <div className="flex items-center justify-between mb-2">
                               <h5 className="font-medium text-sm">{game.name}</h5>
-                              <span className="text-green-600 font-bold">${game.price}</span>
+                              <span className="text-green-600 font-bold">₹{game.price}</span>
                             </div>
                             <div className="flex items-center justify-between text-xs text-gray-600">
                               <span className="capitalize">{game.condition}</span>

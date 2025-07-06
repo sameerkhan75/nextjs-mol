@@ -147,7 +147,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
                   <div style="margin: 4px 0; padding: 4px; background: white; border-radius: 2px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                       <span style="font-size: 12px; font-weight: 500; color: #1f2937;">${game.name}</span>
-                      <span style="font-size: 12px; font-weight: bold; color: #10b981;">$${game.price}</span>
+                      <span style="font-size: 12px; font-weight: bold; color: #10b981;">₹${game.price}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; font-size: 10px; color: #6b7280; margin-top: 2px;">
                       <span>${game.condition}</span>
@@ -263,7 +263,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
                   <div style="margin: 4px 0; padding: 4px; background: white; border-radius: 2px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                       <span style="font-size: 12px; font-weight: 500; color: #1f2937;">${game.name}</span>
-                      <span style="font-size: 12px; font-weight: bold; color: #10b981;">$${game.price}</span>
+                      <span style="font-size: 12px; font-weight: bold; color: #10b981;">₹${game.price}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; font-size: 10px; color: #6b7280; margin-top: 2px;">
                       <span>${game.condition}</span>
@@ -292,7 +292,8 @@ export default function MapComponent({ players, userLocation, className }: MapCo
         height: '100%',
         minHeight: '400px',
         borderRadius: '8px',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        zIndex: 1
       }}
     />
   );
