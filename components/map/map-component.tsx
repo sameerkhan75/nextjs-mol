@@ -143,7 +143,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
                 <p style="margin: 0 0 6px 0; color: #065f46; font-size: 14px; font-weight: 600;">
                   🎮 Games for Sale (${player.gamesForSale.length})
                 </p>
-                ${player.gamesForSale.map((game, index) => `
+                ${player.gamesForSale.map((game) => `
                   <div style="margin: 4px 0; padding: 4px; background: white; border-radius: 2px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                       <span style="font-size: 12px; font-weight: 500; color: #1f2937;">${game.name}</span>
@@ -189,7 +189,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
       markersRef.current = [];
       document.head.removeChild(style);
     };
-  }, [userLocation]);
+  }, [userLocation, players]);
 
   // Update markers when players change
   useEffect(() => {
@@ -259,7 +259,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
                 <p style="margin: 0 0 6px 0; color: #065f46; font-size: 14px; font-weight: 600;">
                   🎮 Games for Sale (${player.gamesForSale.length})
                 </p>
-                ${player.gamesForSale.map((game, index) => `
+                ${player.gamesForSale.map((game) => `
                   <div style="margin: 4px 0; padding: 4px; background: white; border-radius: 2px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                       <span style="font-size: 12px; font-weight: 500; color: #1f2937;">${game.name}</span>
