@@ -4,6 +4,14 @@ import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
+interface GameForSale {
+  name: string;
+  price: number;
+  condition: 'Excellent' | 'Good' | 'Fair' | 'Poor';
+  platform: 'PS5' | 'PS4' | 'Xbox' | 'PC' | 'Nintendo Switch';
+  description?: string;
+}
+
 interface Player {
   id: string;
   name: string;
@@ -18,6 +26,7 @@ interface Player {
   avatar?: string;
   level?: number;
   achievements?: string[];
+  gamesForSale?: GameForSale[];
 }
 
 interface MapComponentProps {
@@ -109,7 +118,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
       const marker = L.marker([player.location.lat, player.location.lng], { icon: playerIcon })
         .addTo(map)
         .bindPopup(`
-          <div style="min-width: 250px;">
+          <div style="min-width: 300px;">
             <h3 style="margin: 0 0 8px 0; color: #1f2937; font-weight: 600;">${player.name}</h3>
             <p style="margin: 0 0 4px 0; color: #6b7280; font-size: 14px;">
               <strong>Game:</strong> ${player.game}
@@ -129,7 +138,26 @@ export default function MapComponent({ players, userLocation, className }: MapCo
                 <strong>Achievements:</strong> ${player.achievements.join(', ')}
               </p>
             ` : ''}
-            <p style="margin: 0; color: #9ca3af; font-size: 12px;">
+            ${player.gamesForSale && player.gamesForSale.length > 0 ? `
+              <div style="margin: 8px 0 0 0; padding: 8px; background: #f0fdf4; border-radius: 4px; border-left: 3px solid #10b981;">
+                <p style="margin: 0 0 6px 0; color: #065f46; font-size: 14px; font-weight: 600;">
+                  🎮 Games for Sale (${player.gamesForSale.length})
+                </p>
+                ${player.gamesForSale.map((game, index) => `
+                  <div style="margin: 4px 0; padding: 4px; background: white; border-radius: 2px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-size: 12px; font-weight: 500; color: #1f2937;">${game.name}</span>
+                      <span style="font-size: 12px; font-weight: bold; color: #10b981;">$${game.price}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 10px; color: #6b7280; margin-top: 2px;">
+                      <span>${game.condition}</span>
+                      <span>${game.platform}</span>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
+            <p style="margin: 8px 0 0 0; color: #9ca3af; font-size: 12px;">
               Last seen: ${player.lastSeen}
             </p>
           </div>
@@ -206,7 +234,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
       const marker = L.marker([player.location.lat, player.location.lng], { icon: playerIcon })
         .addTo(mapInstanceRef.current!)
         .bindPopup(`
-          <div style="min-width: 250px;">
+          <div style="min-width: 300px;">
             <h3 style="margin: 0 0 8px 0; color: #1f2937; font-weight: 600;">${player.name}</h3>
             <p style="margin: 0 0 4px 0; color: #6b7280; font-size: 14px;">
               <strong>Game:</strong> ${player.game}
@@ -226,7 +254,26 @@ export default function MapComponent({ players, userLocation, className }: MapCo
                 <strong>Achievements:</strong> ${player.achievements.join(', ')}
               </p>
             ` : ''}
-            <p style="margin: 0; color: #9ca3af; font-size: 12px;">
+            ${player.gamesForSale && player.gamesForSale.length > 0 ? `
+              <div style="margin: 8px 0 0 0; padding: 8px; background: #f0fdf4; border-radius: 4px; border-left: 3px solid #10b981;">
+                <p style="margin: 0 0 6px 0; color: #065f46; font-size: 14px; font-weight: 600;">
+                  🎮 Games for Sale (${player.gamesForSale.length})
+                </p>
+                ${player.gamesForSale.map((game, index) => `
+                  <div style="margin: 4px 0; padding: 4px; background: white; border-radius: 2px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-size: 12px; font-weight: 500; color: #1f2937;">${game.name}</span>
+                      <span style="font-size: 12px; font-weight: bold; color: #10b981;">$${game.price}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 10px; color: #6b7280; margin-top: 2px;">
+                      <span>${game.condition}</span>
+                      <span>${game.platform}</span>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
+            <p style="margin: 8px 0 0 0; color: #9ca3af; font-size: 12px;">
               Last seen: ${player.lastSeen}
             </p>
           </div>

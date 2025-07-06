@@ -10,6 +10,7 @@ The main component that handles the player search and map functionality. It incl
 - User location detection
 - Player list display
 - Integration with the map component
+- **NEW**: Games for sale feature
 
 ### `map-component.tsx`
 The Leaflet map component that renders the interactive map with:
@@ -17,20 +18,24 @@ The Leaflet map component that renders the interactive map with:
 - Player markers (green for online, gray for offline)
 - Popup information for each player
 - Real-time updates when filters change
+- **NEW**: Games for sale information in popups
 
 ## Features
 
 ### Search & Filter
-- **Search by name or game**: Type to search for specific players or games
+- **Search by name, game, or games for sale**: Type to search for specific players, games, or games being sold
 - **Filter by game**: Select specific games to show only those players
-- **Distance filter**: Set maximum distance (1km to 50km)
+- **Filter by games for sale**: Quick dropdown to find specific games being sold
+- **Distance filter**: Set maximum distance (2km to 50km)
 - **Online status**: Toggle to show only online players
+- **Games for sale filter**: Toggle to show only players with games for sale
 
 ### Map Features
 - **Interactive markers**: Click on player markers to see details
 - **Real-time updates**: Map updates automatically when filters change
 - **User location**: Shows your current location with a blue marker
 - **Player status**: Green markers for online players, gray for offline
+- **Games for sale popups**: Shows games being sold by each player
 
 ### Player Information
 - Player name and game
@@ -38,6 +43,15 @@ The Leaflet map component that renders the interactive map with:
 - Online/offline status
 - Last seen time
 - Player level (if available)
+- **NEW**: Games for sale with prices, conditions, and platforms
+
+### Games for Sale Feature
+- **Search functionality**: Type any game name to find players selling it
+- **Price display**: Shows prices for each game
+- **Condition ratings**: Excellent, Good, Fair, Poor
+- **Platform support**: PS5, PS4, Xbox, PC, Nintendo Switch
+- **No results handling**: Shows "No players found selling [game]" when no matches
+- **Visual indicators**: Green highlighting for games for sale sections
 
 ## Dependencies
 
@@ -70,9 +84,22 @@ components/map/
 
 ## Utilities
 
-The map functionality uses utilities from:
-- `@/lib/map-utils.ts`: Distance calculations, filtering, and mock data generation
-- `@/types/map.ts`: TypeScript interfaces for map data
+### Mock Data Generation
+- Generates realistic player data around user location
+- Creates games for sale with varied prices ($10-$60)
+- Includes different game conditions and platforms
+- 70% of players have games for sale
+
+### Search Logic
+- Searches across player names, current games, and games for sale
+- Case-insensitive matching
+- Real-time filtering as you type
+- Clear search functionality
+
+### Distance Calculation
+- Uses Haversine formula for accurate distance calculation
+- Displays distances in meters (for <1km) or kilometers
+- Sorts players by distance from user
 
 ## Styling
 

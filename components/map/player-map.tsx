@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MapPin, Users, Filter, Search, Wifi, WifiOff } from 'lucide-react';
+import { MapPin, Users, Filter, Search, Wifi, WifiOff, DollarSign, Package } from 'lucide-react';
 
 // Dynamically import the map component to avoid SSR issues
 const MapComponent = dynamic(() => import('./map-component'), {
@@ -17,6 +17,14 @@ const MapComponent = dynamic(() => import('./map-component'), {
     </div>
   ),
 });
+
+interface GameForSale {
+  name: string;
+  price: number;
+  condition: 'Excellent' | 'Good' | 'Fair' | 'Poor';
+  platform: 'PS5' | 'PS4' | 'Xbox' | 'PC' | 'Nintendo Switch';
+  description?: string;
+}
 
 interface Player {
   id: string;
@@ -32,6 +40,7 @@ interface Player {
   avatar?: string;
   level?: number;
   achievements?: string[];
+  gamesForSale?: GameForSale[];
 }
 
 interface PlayerMapProps {
@@ -45,6 +54,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
   const [selectedGame, setSelectedGame] = useState('all');
   const [maxDistance, setMaxDistance] = useState(10);
   const [onlineOnly, setOnlineOnly] = useState(false);
+  const [showGamesForSale, setShowGamesForSale] = useState(false);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -61,6 +71,45 @@ export default function PlayerMap({ className }: PlayerMapProps) {
         Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
+  };
+
+  // Generate mock games for sale
+  const generateGamesForSale = (): GameForSale[] => {
+    const allGames = [
+      'FIFA 24', 'Call of Duty: Modern Warfare III', 'Fortnite', 'God of War: Ragnarök', 
+      'Valorant', 'GTA 5', 'Marvels Spider-Man', 'CS:GO', 'Red Dead Redemption II',
+      'The Last of Us Part II', 'Cyberpunk 2077', 'Assassins Creed Valhalla',
+      'FIFA 23', 'Call of Duty: Warzone', 'Apex Legends', 'Overwatch 2',
+      'Minecraft', 'Among Us', 'Fall Guys', 'Rocket League'
+    ];
+    
+    const platforms = ['PS5', 'PS4', 'Xbox', 'PC', 'Nintendo Switch'];
+    const conditions = ['Excellent', 'Good', 'Fair', 'Poor'];
+    
+    // Randomly decide if this player has games for sale (70% chance)
+    if (Math.random() > 0.3) {
+      const numGames = Math.floor(Math.random() * 3) + 1; // 1-3 games
+      const gamesForSale: GameForSale[] = [];
+      
+      for (let i = 0; i < numGames; i++) {
+        const gameName = allGames[Math.floor(Math.random() * allGames.length)];
+        const price = Math.floor(Math.random() * 50) + 10; // $10-$60
+        const condition = conditions[Math.floor(Math.random() * conditions.length)] as GameForSale['condition'];
+        const platform = platforms[Math.floor(Math.random() * platforms.length)] as GameForSale['platform'];
+        
+        gamesForSale.push({
+          name: gameName,
+          price,
+          condition,
+          platform,
+          description: `Used ${condition.toLowerCase()} condition. Complete with case and manual.`
+        });
+      }
+      
+      return gamesForSale;
+    }
+    
+    return [];
   };
 
   // Generate mock players based on user location
@@ -97,6 +146,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
         lastSeen: `${Math.floor(Math.random() * 60)} minutes ago`,
         level: Math.floor(Math.random() * 100) + 1,
         achievements: ['First Win', 'Team Player', 'MVP', 'Kill Leader', 'Survivor'].slice(0, Math.floor(Math.random() * 3) + 1),
+        gamesForSale: generateGamesForSale(),
       };
     });
   };
@@ -115,6 +165,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
     selectedGame: string;
     maxDistance: number;
     onlineOnly: boolean;
+    showGamesForSale: boolean;
   }): Player[] => {
     return players.filter(player => {
       // Search term filter
@@ -122,7 +173,10 @@ export default function PlayerMap({ className }: PlayerMapProps) {
         const searchLower = filters.searchTerm.toLowerCase();
         const matchesSearch = 
           player.name.toLowerCase().includes(searchLower) ||
-          player.game.toLowerCase().includes(searchLower);
+          player.game.toLowerCase().includes(searchLower) ||
+          (player.gamesForSale && player.gamesForSale.some(game => 
+            game.name.toLowerCase().includes(searchLower)
+          ));
         if (!matchesSearch) return false;
       }
 
@@ -141,6 +195,11 @@ export default function PlayerMap({ className }: PlayerMapProps) {
         return false;
       }
 
+      // Games for sale filter
+      if (filters.showGamesForSale && (!player.gamesForSale || player.gamesForSale.length === 0)) {
+        return false;
+      }
+
       return true;
     });
   };
@@ -148,6 +207,14 @@ export default function PlayerMap({ className }: PlayerMapProps) {
   // Get unique games from players
   const getUniqueGames = (players: Player[]): string[] => {
     return Array.from(new Set(players.map(player => player.game)));
+  };
+
+  // Get unique games for sale from all players
+  const getUniqueGamesForSale = (players: Player[]): string[] => {
+    const allGamesForSale = players.flatMap(player => 
+      player.gamesForSale ? player.gamesForSale.map(game => game.name) : []
+    );
+    return Array.from(new Set(allGamesForSale));
   };
 
   useEffect(() => {
@@ -207,11 +274,13 @@ export default function PlayerMap({ className }: PlayerMapProps) {
       selectedGame,
       maxDistance,
       onlineOnly,
+      showGamesForSale,
     });
     setFilteredPlayers(filtered);
-  }, [searchTerm, selectedGame, maxDistance, onlineOnly, players]);
+  }, [searchTerm, selectedGame, maxDistance, onlineOnly, showGamesForSale, players]);
 
   const games = getUniqueGames(players);
+  const gamesForSale = getUniqueGamesForSale(players);
 
   return (
     <div className={`space-y-6 ${className}`}>
@@ -236,11 +305,11 @@ export default function PlayerMap({ className }: PlayerMapProps) {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Search Players</label>
+              <label className="text-sm font-medium">Search Players & Games</label>
               <Input
-                placeholder="Search by name or game..."
+                placeholder="Search by name, game, or games for sale..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full"
@@ -255,6 +324,27 @@ export default function PlayerMap({ className }: PlayerMapProps) {
                 <SelectContent>
                   <SelectItem value="all">All Games</SelectItem>
                   {games.map((game) => (
+                    <SelectItem key={game} value={game}>
+                      {game}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Filter by Games for Sale</label>
+              <Select value="all" onValueChange={(value) => {
+                if (value !== 'all') {
+                  setSearchTerm(value);
+                  setShowGamesForSale(true);
+                }
+              }}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select game for sale" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Games for Sale</SelectItem>
+                  {gamesForSale.map((game) => (
                     <SelectItem key={game} value={game}>
                       {game}
                     </SelectItem>
@@ -298,6 +388,31 @@ export default function PlayerMap({ className }: PlayerMapProps) {
                 </Button>
               </div>
             </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Actions</label>
+              <div className="flex items-center space-x-2">
+                <Button
+                  variant={showGamesForSale ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setShowGamesForSale(!showGamesForSale)}
+                  className="flex items-center space-x-2"
+                >
+                  {showGamesForSale ? <DollarSign className="h-4 w-4" /> : <Package className="h-4 w-4" />}
+                  <span>{showGamesForSale ? 'Games for Sale' : 'All Players'}</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setSearchTerm('');
+                    setSelectedGame('all');
+                    setShowGamesForSale(false);
+                  }}
+                >
+                  Clear
+                </Button>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -322,34 +437,72 @@ export default function PlayerMap({ className }: PlayerMapProps) {
       {/* Players List */}
       <Card>
         <CardHeader>
-          <CardTitle>Nearby Players</CardTitle>
+          <CardTitle className="flex items-center justify-between">
+            <span>Nearby Players</span>
+            {showGamesForSale && (
+              <div className="flex items-center space-x-2 text-sm text-green-600">
+                <DollarSign className="h-4 w-4" />
+                <span>Showing players with games for sale</span>
+              </div>
+            )}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             {filteredPlayers.length === 0 ? (
               <div className="text-center py-8 text-gray-500">
-                No players found nearby
+                {searchTerm ? `No players found selling "${searchTerm}"` : 'No players found nearby'}
               </div>
             ) : (
               filteredPlayers.map((player) => (
                 <div
                   key={player.id}
-                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+                  className="border rounded-lg hover:bg-gray-50 transition-colors"
                 >
-                  <div className="flex items-center space-x-3">
-                    <div className={`w-3 h-3 rounded-full ${player.isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />
-                    <div>
-                      <h3 className="font-medium">{player.name}</h3>
-                      <p className="text-sm text-gray-600">{player.game}</p>
+                  {/* Player Info */}
+                  <div className="flex items-center justify-between p-4 border-b">
+                    <div className="flex items-center space-x-3">
+                      <div className={`w-3 h-3 rounded-full ${player.isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />
+                      <div>
+                        <h3 className="font-medium">{player.name}</h3>
+                        <p className="text-sm text-gray-600">{player.game}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-medium">{formatDistance(player.distance)} away</p>
+                      <p className="text-xs text-gray-500">{player.lastSeen}</p>
+                      {player.level && (
+                        <p className="text-xs text-blue-600">Level {player.level}</p>
+                      )}
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-medium">{formatDistance(player.distance)} away</p>
-                    <p className="text-xs text-gray-500">{player.lastSeen}</p>
-                    {player.level && (
-                      <p className="text-xs text-blue-600">Level {player.level}</p>
-                    )}
-                  </div>
+                  
+                  {/* Games for Sale */}
+                  {player.gamesForSale && player.gamesForSale.length > 0 && (
+                    <div className="p-4 bg-green-50">
+                      <div className="flex items-center space-x-2 mb-3">
+                        <DollarSign className="h-4 w-4 text-green-600" />
+                        <h4 className="font-medium text-green-800">Games for Sale</h4>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {player.gamesForSale.map((game, index) => (
+                          <div key={index} className="bg-white p-3 rounded border">
+                            <div className="flex items-center justify-between mb-2">
+                              <h5 className="font-medium text-sm">{game.name}</h5>
+                              <span className="text-green-600 font-bold">${game.price}</span>
+                            </div>
+                            <div className="flex items-center justify-between text-xs text-gray-600">
+                              <span className="capitalize">{game.condition}</span>
+                              <span>{game.platform}</span>
+                            </div>
+                            {game.description && (
+                              <p className="text-xs text-gray-500 mt-1">{game.description}</p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))
             )}
