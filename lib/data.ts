@@ -283,7 +283,7 @@ const data: Data = {
     title: 'Console Titles near you',
     buttonCaption: 'See Now',
     image: '/images/wp1.jpg',
-    url: '/search?category=Titles',
+    url: '/search/players',
     isPublished: true,
   },  
   {
