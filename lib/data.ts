@@ -246,16 +246,12 @@ const products: IProductInput[] = [
 const data: Data = {
   headerMenus: [
     {
-      name: "Today's Deal",
+      name: "Add Products to sale",
       href: '/search?tag=todays-deal',
     },
     {
-      name: 'New Arrivals',
+      name: 'Your Products',
       href: '/search?tag=new-arrival',
-    },
-    {
-      name: 'Browsing History',
-      href: '/#browsing-history',
     },
     {
       name: 'Customer Service',
