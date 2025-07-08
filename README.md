@@ -89,4 +89,4 @@ MIT License
 
 **Sameer Khan**
 [GitHub](https://github.com/sameerkhan75)
-Passionate about building social and utility-first products for gamers and making ideas to life 🎮
+Passionate about building social and utility-first products for gamers and making ideas to life and create more ideas 🎮
