@@ -9,7 +9,7 @@ const handler = NextAuth({
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-  debug: true, // <-- Add this
+  debug: true, // <-- Add this to your code
 });
 
 export { handler as GET, handler as POST }; 
