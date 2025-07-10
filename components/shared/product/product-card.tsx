@@ -67,6 +67,9 @@ const ProductCard = ({
         listPrice={product.listPrice}
         forListing
       />
+      <div className="text-sm text-blue-700 mt-1">
+        -- to buy this product message on {product.userId}#0000
+      </div>
     </div>
   )
 

@@ -27,6 +27,7 @@ const products: IProductInput[] = [
       sizes: [],
       colors: ['Black'],
       reviews: [],
+      userId: 'gamer123',
     },
     {
       name: 'Custom Gaming PC - Intel i9 RTX 4080',
@@ -53,6 +54,7 @@ const products: IProductInput[] = [
       sizes: [],
       colors: ['Black', 'RGB'],
       reviews: [],
+      userId: 'proSarah',
     },
     {
       name: 'Nintendo Switch (Neon Red/Blue)',
@@ -79,6 +81,7 @@ const products: IProductInput[] = [
       sizes: [],
       colors: ['Red', 'Blue', 'Black'],
       reviews: [],
+      userId: 'mikeP',
     },
     {
       name: 'Sony PlayStation 5',
@@ -105,6 +108,7 @@ const products: IProductInput[] = [
       sizes: [],
       colors: ['White', 'Black'],
       reviews: [],
+      userId: 'emmaG',
     },
   
 
@@ -132,7 +136,8 @@ const products: IProductInput[] = [
         description: "Swing through New York City as Spider-Man in this high-adrenaline open-world action game.",
         sizes: [],
         colors: [],
-        reviews: []
+        reviews: [],
+        userId: 'johnnyD',
       },
       {
         name: "God of War: Ragnarök",
@@ -158,7 +163,8 @@ const products: IProductInput[] = [
         description: "Join Kratos and Atreus in an epic mythological journey through the Norse realms in this critically acclaimed RPG.",
         sizes: [],
         colors: [],
-        reviews: []
+        reviews: [],
+        userId: 'lisaP',
       },
       {
         name: "Red Dead Redemption II",
@@ -184,7 +190,8 @@ const products: IProductInput[] = [
         description: "Live the outlaw life in Rockstar's sprawling Western saga, featuring stunning visuals and gripping storytelling.",
         sizes: [],
         colors: [],
-        reviews: []
+        reviews: [],
+        userId: 'davidPro',
       },
       {
         name: "The Last of Us Part II Remastered",
@@ -210,7 +217,8 @@ const products: IProductInput[] = [
         description: "A beautifully remastered emotional rollercoaster, follow Ellie in a post-apocalyptic survival journey.",
         sizes: [],
         colors: [],
-        reviews: []
+        reviews: [],
+        userId: 'annaG',
       },
       {
         name: "PowerA Twin Charging Station for PS5 DualSense",
@@ -236,7 +244,8 @@ const products: IProductInput[] = [
         description: "A sleek and reliable dual charging dock for PS5 controllers, featuring fast charging, LED indicators, and an officially licensed vertical design.",
         sizes: [],
         colors: [],
-        reviews: []
+        reviews: [],
+        userId: 'tomP',
       }
       
     ];

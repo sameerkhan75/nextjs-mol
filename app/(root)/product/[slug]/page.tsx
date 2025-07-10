@@ -8,6 +8,8 @@ import ProductPrice from '@/components/shared/product/product-price'
 import ProductGallery from '@/components/shared/product/product-gallary'
 import { Separator } from '@/components/ui/separator'
 import Rating from '@/components/shared/product/rating'
+import DiscordContact from "./DiscordContact";
+import { mockPlayers } from "@/lib/mockPlayers";
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>
@@ -40,6 +42,9 @@ export default async function ProductDetails(props: {
   if (!product) {
     return <div>Product not found</div>;
   }
+
+  const player = mockPlayers.find(p => p.userId === product.userId);
+  const distance = player ? player.distance : null;
 
   return (
     <div>
@@ -96,16 +101,24 @@ export default async function ProductDetails(props: {
               <CardContent className='p-4 flex flex-col  gap-4'>
                 <ProductPrice price={product.price} />
 
+                <div className="flex items-center space-x-2 mt-2">
+                  <DiscordContact discordId={`${product.userId}#0000`} />
+                </div>
+                {distance && (
+                  <div className="text-right font-bold text-gray-700">
+                    {distance}km away
+                  </div>
+                )}
                 {product.countInStock > 0 && product.countInStock <= 3 && (
                   <div className='text-destructive font-bold'>
                     {`Only ${product.countInStock} left in stock - order soon`}
                   </div>
                 )}
                 {product.countInStock !== 0 ? (
-                  <div className='text-green-700 text-xl'>In Stock</div>
+                  <div className='text-green-700 text-xl'>Available for pickup</div>
                 ) : (
                   <div className='text-destructive text-xl'>
-                    Out of Stock
+                    Sold out
                   </div>
                 )}
               </CardContent>

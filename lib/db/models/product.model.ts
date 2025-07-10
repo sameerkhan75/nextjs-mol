@@ -85,6 +85,7 @@ const productSchema = new Schema<IProduct>(
         default: [],
       },
     ],
+    userId: { type: String, required: true }, // Add this line
   },
   {
     timestamps: true,

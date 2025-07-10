@@ -43,4 +43,5 @@ export const ProductInputSchema = z.object({
     .number()
     .int()
     .nonnegative('Number of sales must be a non-negative number'),
+  userId: z.string().min(1, 'User ID is required'),
 })

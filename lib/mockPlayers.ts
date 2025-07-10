@@ -1,0 +1,17 @@
+export const mockPlayers = [
+  { userId: "gamer123", distance: 1.2 },
+  { userId: "proSarah", distance: 2.1 },
+  { userId: "mikeP", distance: 7.8 },
+  { userId: "emmaG", distance: 3.4 },
+  { userId: "johnnyD", distance: 4.5 },
+  { userId: "lisaP", distance: 5.6 },
+  { userId: "davidPro", distance: 2.9 },
+  { userId: "annaG", distance: 2.1 },
+  { userId: "tomP", distance: 6.3 },
+  { userId: "katePro", distance: 1.7 },
+  { userId: "chrisE", distance: 8.2 },
+  { userId: "mariaQ", distance: 3.9 },
+  { userId: "jakeS", distance: 5.2 },
+  { userId: "sophieP", distance: 4.8 },
+  { userId: "ryanG", distance: 3.3 },
+]; 
