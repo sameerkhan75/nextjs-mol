@@ -1,29 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import Product from "@/lib/db/models/product.model";
 import { connectToDatabase } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
-  await connectToDatabase(); // Connect to MongoDB
+  await connectToDatabase();
 
-  const session = await getServerSession(authOptions);
+  const data = await req.json();
 
-  if (!session || !session.user?.email) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // Require userId (either email or Discord ID)
+  if (!data.userId) {
+    return NextResponse.json({ error: "Missing userId" }, { status: 401 });
   }
 
-  const { title, description, price, image } = await req.json();
+  // You may want to validate other fields here
 
-  // You may want to validate these fields
-
-  const product = await Product.create({
-    title,
-    description,
-    price,
-    image,
-    userId: session.user.email, // or session.user.id if you store user IDs
-  });
-
-  return NextResponse.json({ product });
+  try {
+    const product = await Product.create(data);
+    return NextResponse.json({ product }, { status: 201 });
+  } catch (err) {
+    console.error("Add product error:", err);
+    return NextResponse.json({ error: "Failed to add product" }, { status: 500 });
+  }
 }
