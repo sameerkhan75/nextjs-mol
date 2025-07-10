@@ -334,7 +334,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
       setFilteredPlayers(sortedPlayers);
       setIsLoading(false);
     }
-  }, []);
+  }, [generateMockPlayers]);
 
   useEffect(() => {
     const filtered = filterPlayers(players, {

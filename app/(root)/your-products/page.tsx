@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import Product from "@/lib/db/models/product.model";
+import Product, { IProduct } from "@/lib/db/models/product.model";
 import { connectToDatabase } from "@/lib/db";
 
 export default async function YourProductsPage() {
@@ -20,9 +20,9 @@ export default async function YourProductsPage() {
         <p>No products listed yet.</p>
       ) : (
         <ul>
-          {products.map((product: any) => (
+          {products.map((product: IProduct) => (
             <li key={product._id}>
-              <strong>{product.title}</strong> - ${product.price}
+              <strong>{product.name}</strong> - ${product.price}
             </li>
           ))}
         </ul>
