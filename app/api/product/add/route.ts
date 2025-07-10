@@ -7,12 +7,9 @@ export async function POST(req: NextRequest) {
 
   const data = await req.json();
 
-  // Require userId (either email or Discord ID)
   if (!data.userId) {
     return NextResponse.json({ error: "Missing userId" }, { status: 401 });
   }
-
-  // You may want to validate other fields here
 
   try {
     const product = await Product.create(data);
