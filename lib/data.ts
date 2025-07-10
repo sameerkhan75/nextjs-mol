@@ -256,11 +256,11 @@ const data: Data = {
   headerMenus: [
     {
       name: "Add Products to sale",
-      href: '/search?tag=todays-deal',
+      href: '/product/add',
     },
     {
       name: 'Your Products',
-      href: '/search?tag=new-arrival',
+      href: '/your-products',
     },
     {
       name: 'Customer Service',
