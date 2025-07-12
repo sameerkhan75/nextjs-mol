@@ -5,10 +5,14 @@ export default function HelpPage() {
   return (
     <div style={{
       minHeight: '100vh',
+      backgroundImage: "url('/images/noice.jpeg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      position: 'relative',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%)',
       padding: '2rem',
     }}>
       <div style={{
