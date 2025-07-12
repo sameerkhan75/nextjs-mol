@@ -82,6 +82,9 @@ export default async function ProductDetails(props: {
               </div>
             </div>
             <div>
+
+
+              
               <SelectVariant
                 product={product}
                 size={size || product.sizes[0]}
