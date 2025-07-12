@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 export default function HelpPage() {
   return (
@@ -55,9 +56,9 @@ export default function HelpPage() {
             Frequently Asked Questions
           </h2>
           <ul style={{ color: '#1e293b', fontSize: '1.04rem', marginLeft: 20, marginBottom: 8, lineHeight: 1.7 }}>
-            <li><strong>How do I add a product?</strong><br />Go to <a href="/product/add" style={{ color: '#2563eb', textDecoration: 'underline' }}>Add Product</a> and fill out the form.</li>
-            <li><strong>How can I see my listed products?</strong><br />Visit <a href="/your-products" style={{ color: '#2563eb', textDecoration: 'underline' }}>Your Products</a> to view your listings.</li>
-            <li><strong>What if I receive a wrong or fake product?</strong><br />Contact <a href="mailto:sameer754811@gmail.com" style={{ color: '#2563eb', textDecoration: 'underline' }}>Customer Service</a> immediately with details and evidence.</li>
+            <li><strong>How do I add a product?</strong><br />Go to <Link href="/product/add" style={{ color: '#2563eb', textDecoration: 'underline' }}>Add Product</Link> and fill out the form.</li>
+            <li><strong>How can I see my listed products?</strong><br />Visit <Link href="/your-products" style={{ color: '#2563eb', textDecoration: 'underline' }}>Your Products</Link> to view your listings.</li>
+            <li><strong>What if I receive a wrong or fake product?</strong><br />Contact <Link href="mailto:sameer754811@gmail.com" style={{ color: '#2563eb', textDecoration: 'underline' }}>Customer Service</Link> immediately with details and evidence.</li>
             <li><strong>How do I reset my password?</strong><br />Use the password reset link on the sign-in page or contact support.</li>
             <li><strong>How long does it take to get a response?</strong><br />We respond to all queries within 24 hours.</li>
           </ul>
@@ -73,7 +74,7 @@ export default function HelpPage() {
         }}>
           <strong style={{ color: '#3730a3' }}>Still need help?</strong>
           <br />
-          Email us at <a href="mailto:sameer754811@gmail.com" style={{ color: '#2563eb', textDecoration: 'underline' }}>sameer754811@gmail.com</a> or call <a href="tel:8630900119" style={{ color: '#2563eb', textDecoration: 'underline' }}>8630900119</a>.<br />
+          Email us at <Link href="mailto:sameer754811@gmail.com" style={{ color: '#2563eb', textDecoration: 'underline' }}>sameer754811@gmail.com</Link> or call <a href="tel:8630900119" style={{ color: '#2563eb', textDecoration: 'underline' }}>8630900119</a>.<br />
           We're here to support you!
         </div>
       </div>
