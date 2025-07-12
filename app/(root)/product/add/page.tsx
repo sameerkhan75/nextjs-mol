@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { useRef } from "react";
 
 export default function AddProductPage() {
   const { data: session } = useSession();
@@ -11,7 +12,8 @@ export default function AddProductPage() {
   const [listPrice, setListPrice] = useState("");
   const [brand, setBrand] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
@@ -24,6 +26,25 @@ export default function AddProductPage() {
       setError("You must be logged in or provide a Discord ID to add a product.");
       return;
     }
+    let imageUrl = "";
+    if (imageFile) {
+      const formData = new FormData();
+      formData.append("file", imageFile);
+      const uploadRes = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      if (uploadRes.ok) {
+        const data = await uploadRes.json();
+        imageUrl = data.url;
+      } else {
+        setError("Image upload failed.");
+        return;
+      }
+    } else {
+      setError("Please select an image.");
+      return;
+    }
     const res = await fetch("/api/product/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -31,7 +52,7 @@ export default function AddProductPage() {
         name,
         price: parseFloat(price),
         listPrice: parseFloat(listPrice) || parseFloat(price),
-        images: [image],
+        images: [imageUrl],
         userId,
         slug: name.toLowerCase().replace(/\s+/g, "-"),
         category: category || "Other",
@@ -127,12 +148,25 @@ export default function AddProductPage() {
             style={inputStyle}
           />
           <input
-            placeholder="Image URL"
-            value={image}
-            onChange={e => setImage(e.target.value)}
+            type="file"
+            accept="image/*"
+            onChange={e => {
+              const file = e.target.files?.[0] || null;
+              setImageFile(file);
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = ev => setImagePreview(ev.target?.result as string);
+                reader.readAsDataURL(file);
+              } else {
+                setImagePreview("");
+              }
+            }}
             required
             style={inputStyle}
           />
+          {imagePreview && (
+            <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', maxHeight: 180, borderRadius: 8, marginBottom: 8, objectFit: 'cover', alignSelf: 'center' }} />
+          )}
           <textarea
             placeholder="Description"
             value={description}
