@@ -74,7 +74,7 @@ export default function HelpPage() {
         }}>
           <strong style={{ color: '#3730a3' }}>Still need help?</strong>
           <br />
-          Email us at <Link href="mailto:sameer754811@gmail.com" style={{ color: '#2563eb', textDecoration: 'underline' }}>sameer754811@gmail.com</Link> or call <a href="tel:8630900119" style={{ color: '#2563eb', textDecoration: 'underline' }}>8630900119</a>.<br />
+          Email us at <Link href="mailto:sameer754811@gmail.com" style={{ color: '#2563eb', textDecoration: 'underline' }}>sameer754811@gmail.com</Link> or call <Link href="tel:8630900119" style={{ color: '#2563eb', textDecoration: 'underline' }}>8630900119</Link>.<br />
           We're here to support you!
         </div>
       </div>

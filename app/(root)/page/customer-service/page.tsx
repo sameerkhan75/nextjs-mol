@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 export default function CustomerServicePage() {
   return (
@@ -37,8 +38,8 @@ export default function CustomerServicePage() {
           If someone has scammed you or sent you the wrong product, please contact us immediately:
         </p>
         <ul style={{ color: '#1e293b', fontSize: '1rem', marginLeft: 20, marginBottom: 8 }}>
-          <li>Email: <a href="mailto:sameer754811@gmail.com" style={{ color: '#2563eb', textDecoration: 'underline' }}>sameer754811@gmail.com</a></li>
-          <li>Phone: <a href="tel:8630900119" style={{ color: '#2563eb', textDecoration: 'underline' }}>8630900119</a></li>
+          <li>Email: <Link href="mailto:sameer754811@gmail.com" style={{ color: '#2563eb', textDecoration: 'underline' }}>sameer754811@gmail.com</Link></li>
+          <li>Phone: <Link href="tel:8630900119" style={{ color: '#2563eb', textDecoration: 'underline' }}>8630900119</Link></li>
         </ul>
         <p style={{ color: '#64748b', fontSize: '0.98rem' }}>
           Our team will investigate and take action as soon as possible. Please provide all relevant details and evidence.
