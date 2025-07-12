@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { useRef } from "react";
 
 export default function AddProductPage() {
   const { data: session } = useSession();
