@@ -279,7 +279,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
           setIsLoading(false);
         },
         (error) => {
-          console.error('Error getting location:', error);
+          console.error('Error getting location:', error, error?.message);
           // Default to NYC coordinates
           const defaultLocation = { lat: 40.7128, lng: -74.0060 };
 
