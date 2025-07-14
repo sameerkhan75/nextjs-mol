@@ -287,14 +287,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
     <div 
       ref={mapRef} 
       className={className}
-      style={{ 
-        width: '100%', 
-        height: '100%',
-        minHeight: '400px',
-        borderRadius: '8px',
-        overflow: 'hidden',
-        zIndex: 1
-      }}
+      style={{ width: '100%', height: '400px' }}
     />
   );
 } 
