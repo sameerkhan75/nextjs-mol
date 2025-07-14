@@ -49,6 +49,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
   };
 
   useEffect(() => {
+    // Only initialize map and markers if userLocation is available
     if (!mapRef.current || !userLocation) return;
 
     // Only create the map if it doesn't exist
@@ -101,7 +102,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
       players.forEach((player) => {
         const playerIcon = L.divIcon({
           className: 'player-marker',
-          html: `<div style="width: 16px; height: 16px; background: ${player.isOnline ? '#10b981' : '#6b7280'}; border: 2px solid white; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.3); position: relative;">${player.isOnline ? `<div style="position: absolute; top: -2px; right: -2px; width: 6px; height: 6px; background: #10b981; border-radius: 50%; animation: pulse 2s infinite;"></div>` : ''}</div>`,
+          html: `<div style="width: 16px; height: 16px; background: ${player.isOnline ? '#10b981' : '#6b7280'}; border: 2px solid white; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.3); position: relative;">${player.isOnline ? `<div style=\"position: absolute; top: -2px; right: -2px; width: 6px; height: 6px; background: #10b981; border-radius: 50%; animation: pulse 2s infinite;\"></div>` : ''}</div>`,
           iconSize: [16, 16],
           iconAnchor: [8, 8],
         });
@@ -123,24 +124,24 @@ export default function MapComponent({ players, userLocation, className }: MapCo
                   ${player.isOnline ? 'Online' : 'Offline'}
                 </span>
               </p>
-              ${player.level ? `<p style="margin: 0 0 4px 0; color: #3b82f6; font-size: 14px;"><strong>Level:</strong> ${player.level}</p>` : ''}
+              ${player.level ? `<p style=\"margin: 0 0 4px 0; color: #3b82f6; font-size: 14px;\"><strong>Level:</strong> ${player.level}</p>` : ''}
               ${player.achievements && player.achievements.length > 0 ? `
-                <p style="margin: 0 0 4px 0; color: #6b7280; font-size: 14px;">
+                <p style=\"margin: 0 0 4px 0; color: #6b7280; font-size: 14px;\">
                   <strong>Achievements:</strong> ${player.achievements.join(', ')}
                 </p>
               ` : ''}
               ${player.gamesForSale && player.gamesForSale.length > 0 ? `
-                <div style="margin: 8px 0 0 0; padding: 8px; background: #f0fdf4; border-radius: 4px; border-left: 3px solid #10b981;">
-                  <p style="margin: 0 0 6px 0; color: #065f46; font-size: 14px; font-weight: 600;">
+                <div style=\"margin: 8px 0 0 0; padding: 8px; background: #f0fdf4; border-radius: 4px; border-left: 3px solid #10b981;\">
+                  <p style=\"margin: 0 0 6px 0; color: #065f46; font-size: 14px; font-weight: 600;\">
                     🎮 Games for Sale (${player.gamesForSale.length})
                   </p>
                   ${player.gamesForSale.map((game) => `
-                    <div style="margin: 4px 0; padding: 4px; background: white; border-radius: 2px;">
-                      <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 12px; font-weight: 500; color: #1f2937;">${game.name}</span>
-                        <span style="font-size: 12px; font-weight: bold; color: #10b981;">₹${game.price}</span>
+                    <div style=\"margin: 4px 0; padding: 4px; background: white; border-radius: 2px;\">
+                      <div style=\"display: flex; justify-content: space-between; align-items: center;\">
+                        <span style=\"font-size: 12px; font-weight: 500; color: #1f2937;\">${game.name}</span>
+                        <span style=\"font-size: 12px; font-weight: bold; color: #10b981;\">₹${game.price}</span>
                       </div>
-                      <div style="display: flex; justify-content: space-between; font-size: 10px; color: #6b7280; margin-top: 2px;">
+                      <div style=\"display: flex; justify-content: space-between; font-size: 10px; color: #6b7280; margin-top: 2px;\">
                         <span>${game.condition}</span>
                         <span>${game.platform}</span>
                       </div>
@@ -148,7 +149,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
                   `).join('')}
                 </div>
               ` : ''}
-              <p style="margin: 8px 0 0 0; color: #9ca3af; font-size: 12px;">
+              <p style=\"margin: 8px 0 0 0; color: #9ca3af; font-size: 12px;\">
                 Last seen: ${player.lastSeen}
               </p>
             </div>
@@ -159,9 +160,10 @@ export default function MapComponent({ players, userLocation, className }: MapCo
     }
   }, [userLocation, players]);
 
+  // Always render the map container, even if userLocation is not ready
   return (
-    <div 
-      ref={mapRef} 
+    <div
+      ref={mapRef}
       className={className}
       style={{ width: '100%', height: '400px' }}
     />
