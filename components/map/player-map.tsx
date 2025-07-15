@@ -114,48 +114,37 @@ export default function PlayerMap({ className }: PlayerMapProps) {
 
   // Generate mock players based on user location
   const generateMockPlayers = useCallback((userLat: number, userLng: number): Player[] => {
-    const games = ['FIFA 24', 'Call of Duty', 'Fortnite', 'God of War: Ragnarök', 'Valorant', 'GTA 5', 'Marvels Spider-Man', 'CS:GO'];
-    const names = [
-      'Alex_Gamer', 'Sarah_Pro', 'Mike_Player', 'Emma_Gamer', 'John_Doe',
-      'Lisa_Player', 'David_Pro', 'Anna_Gamer', 'Tom_Player', 'Kate_Pro',
-      'Chris_Elite', 'Maria_Queen', 'Jake_Slayer', 'Sophie_Pro', 'Ryan_Gamer'
-    ];
-    const discordIds = [
-      'gamer123#4567', 'proSarah#2345', 'mikeP#9876', 'emmaG#1122', 'johnnyD#3344',
-      'lisaP#5566', 'davidPro#7788', 'annaG#9900', 'tomP#2233', 'katePro#4455',
-      'chrisE#6677', 'mariaQ#8899', 'jakeS#1010', 'sophieP#2020', 'ryanG#3030'
-    ];
-
-    return Array.from({ length: 15 }, (_, index) => {
-      const radius = 10;
-      const angle = Math.random() * 2 * Math.PI;
-      const distance = Math.random() * radius;
+    const games = ['FIFA 24', 'Call of Duty', 'Fortnite', 'God of War: Ragnarök', 'Valorant'];
+    const names = ['Alex', 'Sarah', 'Mike', 'Emma', 'John', 'Lisa', 'David'];
+    
+    return Array.from({ length: 10 }, (_, index) => {
+      // Generate locations within 10km radius more accurately
+      const radius = 10; // km
+      const angle = Math.random() * Math.PI * 2;
+      const distance = Math.sqrt(Math.random()) * radius;
       
-      const latOffset = (distance * Math.cos(angle)) / 111;
-      const lngOffset = (distance * Math.sin(angle)) / (111 * Math.cos(userLat * Math.PI / 180));
+      // Convert distance to latitude/longitude degrees
+      const latOffset = (distance * Math.cos(angle)) / 111.32;
+      const lngOffset = (distance * Math.sin(angle)) / (111.32 * Math.cos(userLat * Math.PI / 180));
       
       const playerLat = userLat + latOffset;
       const playerLng = userLng + lngOffset;
       
+      const distanceKm = calculateDistance(userLat, userLng, playerLat, playerLng);
+      
       return {
-        id: `player-${index + 1}`,
-        name: names[index % names.length],
+        id: `player-${index}`,
+        name: `${names[index % names.length]}_${Math.floor(Math.random() * 1000)}`,
         game: games[index % games.length],
-        location: {
-          lat: playerLat,
-          lng: playerLng,
-        },
-        distance: calculateDistance(userLat, userLng, playerLat, playerLng),
+        location: { lat: playerLat, lng: playerLng },
+        distance: distanceKm,
         isOnline: Math.random() > 0.3,
         lastSeen: `${Math.floor(Math.random() * 60)} minutes ago`,
-        level: Math.floor(Math.random() * 100) + 1,
-        achievements: ['First Win', 'Team Player', 'MVP', 'Kill Leader', 'Survivor'].slice(0, Math.floor(Math.random() * 3) + 1),
+        discordId: `player${index}#${Math.floor(1000 + Math.random() * 9000)}`,
         gamesForSale: generateGamesForSale(),
-        discordId: discordIds[index % discordIds.length],
       };
     });
-  }, [calculateDistance, generateGamesForSale]);
-
+  }, [calculateDistance]);
   // Format distance for display
   const formatDistance = useCallback((distance: number): string => {
     if (distance < 1) {
