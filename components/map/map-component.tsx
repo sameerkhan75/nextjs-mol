@@ -188,6 +188,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
 
         markersRef.current.push(marker);
       });
+      console.log('Adding markers for players:', players);
       if (mapInstanceRef.current && players.length > 0) {
         const group = L.featureGroup([
           L.marker([userLocation.lat, userLocation.lng]),

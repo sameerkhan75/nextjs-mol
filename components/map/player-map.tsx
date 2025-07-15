@@ -343,6 +343,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
   }, [searchTerm, selectedGame, maxDistance, onlineOnly, showGamesForSale, players, filterPlayers]);
 
   return (
+    //http://localhost:3000/search/players
 
     <div className={`space-y-6 ${className}`}>
       {/* Error message */}
