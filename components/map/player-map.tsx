@@ -259,6 +259,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
     const defaultLocation = { lat: 40.7128, lng: -74.0060 };
 
     const handleLocationSuccess = (position: GeolocationPosition) => {
+      console.log('GEO SUCCESS', position);
       const location = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
@@ -285,6 +286,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
     };
 
     const handleLocationError = (error: GeolocationPositionError) => {
+      console.log('GEO ERROR', error);
       console.error('Error getting location:', error);
       setError('Could not get your location. Using default location instead.');
 
