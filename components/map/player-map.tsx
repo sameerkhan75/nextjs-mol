@@ -341,14 +341,14 @@ export default function PlayerMap({ className }: PlayerMapProps) {
   }, [searchTerm, selectedGame, maxDistance, onlineOnly, showGamesForSale, players, filterPlayers]);
 
   return (
+
     <div className={`space-y-6 ${className}`}>
       {/* Error message */}
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-          <span className="block sm:inline">{error}</span>
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
+          {error}
         </div>
       )}
-
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
