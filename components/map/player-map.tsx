@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -59,9 +59,10 @@ export default function PlayerMap({ className }: PlayerMapProps) {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [copiedDiscordId, setCopiedDiscordId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Calculate distance between two points using Haversine formula
-  const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+  const calculateDistance = useCallback((lat1: number, lon1: number, lat2: number, lon2: number): number => {
     const R = 6371; // Earth's radius in kilometers
     const dLat = (lat2 - lat1) * (Math.PI / 180);
     const dLon = (lon2 - lon1) * (Math.PI / 180);
@@ -73,10 +74,10 @@ export default function PlayerMap({ className }: PlayerMapProps) {
         Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
-  };
+  }, []);
 
   // Generate mock games for sale
-  const generateGamesForSale = (): GameForSale[] => {
+  const generateGamesForSale = useCallback((): GameForSale[] => {
     const allGames = [
       'FIFA 24', 'Call of Duty: Modern Warfare III', 'Fortnite', 'God of War: Ragnarök', 
       'Valorant', 'GTA 5', 'Marvels Spider-Man', 'CS:GO', 'Red Dead Redemption II',
@@ -88,14 +89,13 @@ export default function PlayerMap({ className }: PlayerMapProps) {
     const platforms = ['PS5', 'PS4', 'Xbox', 'PC', 'Nintendo Switch'];
     const conditions = ['Excellent', 'Good', 'Fair', 'Poor'];
     
-    // Randomly decide if this player has games for sale (70% chance)
     if (Math.random() > 0.3) {
-      const numGames = Math.floor(Math.random() * 3) + 1; // 1-3 games
+      const numGames = Math.floor(Math.random() * 3) + 1;
       const gamesForSale: GameForSale[] = [];
       
       for (let i = 0; i < numGames; i++) {
         const gameName = allGames[Math.floor(Math.random() * allGames.length)];
-        const price = Math.floor(Math.random() * 601) + 400; // ₹400-₹1000 inclusive
+        const price = Math.floor(Math.random() * 601) + 400;
         const condition = conditions[Math.floor(Math.random() * conditions.length)] as GameForSale['condition'];
         const platform = platforms[Math.floor(Math.random() * platforms.length)] as GameForSale['platform'];
         
@@ -112,10 +112,10 @@ export default function PlayerMap({ className }: PlayerMapProps) {
     }
     
     return [];
-  };
+  }, []);
 
   // Generate mock players based on user location
-  const generateMockPlayers = (userLat: number, userLng: number): Player[] => {
+  const generateMockPlayers = useCallback((userLat: number, userLng: number): Player[] => {
     const games = ['FIFA 24', 'Call of Duty', 'Fortnite', 'God of War: Ragnarök', 'Valorant', 'GTA 5', 'Marvels Spider-Man', 'CS:GO'];
     const names = [
       'Alex_Gamer', 'Sarah_Pro', 'Mike_Player', 'Emma_Gamer', 'John_Doe',
@@ -129,12 +129,11 @@ export default function PlayerMap({ className }: PlayerMapProps) {
     ];
 
     return Array.from({ length: 15 }, (_, index) => {
-      // Generate locations within 10km radius
-      const radius = 10; // km
+      const radius = 10;
       const angle = Math.random() * 2 * Math.PI;
       const distance = Math.random() * radius;
       
-      const latOffset = (distance * Math.cos(angle)) / 111; // Convert km to degrees
+      const latOffset = (distance * Math.cos(angle)) / 111;
       const lngOffset = (distance * Math.sin(angle)) / (111 * Math.cos(userLat * Math.PI / 180));
       
       const playerLat = userLat + latOffset;
@@ -157,18 +156,18 @@ export default function PlayerMap({ className }: PlayerMapProps) {
         discordId: discordIds[index % discordIds.length],
       };
     });
-  };
+  }, [calculateDistance, generateGamesForSale]);
 
   // Format distance for display
-  const formatDistance = (distance: number): string => {
+  const formatDistance = useCallback((distance: number): string => {
     if (distance < 1) {
       return `${Math.round(distance * 1000)}m`;
     }
     return `${distance.toFixed(1)}km`;
-  };
+  }, []);
 
   // Filter players based on criteria
-  const filterPlayers = (players: Player[], filters: {
+  const filterPlayers = useCallback((players: Player[], filters: {
     searchTerm: string;
     selectedGame: string;
     maxDistance: number;
@@ -176,7 +175,6 @@ export default function PlayerMap({ className }: PlayerMapProps) {
     showGamesForSale: boolean;
   }): Player[] => {
     return players.filter(player => {
-      // Search term filter
       if (filters.searchTerm) {
         const searchLower = filters.searchTerm.toLowerCase();
         const matchesSearch = 
@@ -188,144 +186,132 @@ export default function PlayerMap({ className }: PlayerMapProps) {
         if (!matchesSearch) return false;
       }
 
-      // Game filter
       if (filters.selectedGame !== 'all' && player.game !== filters.selectedGame) {
         return false;
       }
 
-      // Distance filter
       if (player.distance > filters.maxDistance) {
         return false;
       }
 
-      // Online only filter
       if (filters.onlineOnly && !player.isOnline) {
         return false;
       }
 
-      // Games for sale filter
       if (filters.showGamesForSale && (!player.gamesForSale || player.gamesForSale.length === 0)) {
         return false;
       }
 
       return true;
     });
-  };
+  }, []);
 
   // Get unique games from players
-  const getUniqueGames = (players: Player[]): string[] => {
+  const games = useMemo(() => {
     return Array.from(new Set(players.map(player => player.game)));
-  };
+  }, [players]);
 
   // Get unique games for sale from all players
-  const getUniqueGamesForSale = (players: Player[]): string[] => {
+  const gamesForSale = useMemo(() => {
     const allGamesForSale = players.flatMap(player => 
       player.gamesForSale ? player.gamesForSale.map(game => game.name) : []
     );
     return Array.from(new Set(allGamesForSale));
-  };
+  }, [players]);
 
-  useEffect(() => {
-    // Try to load players from sessionStorage
-    const sessionKey = 'mockPlayers';
-    const sessionLocationKey = 'mockPlayersLocation';
-    const storedPlayers = typeof window !== 'undefined' ? sessionStorage.getItem(sessionKey) : null;
-    const storedLocation = typeof window !== 'undefined' ? sessionStorage.getItem(sessionLocationKey) : null;
-
-    function saveToSession(players: Player[], location: { lat: number; lng: number }) {
-      sessionStorage.setItem(sessionKey, JSON.stringify(players));
-      sessionStorage.setItem(sessionLocationKey, JSON.stringify(location));
+  // Save/Load from session storage
+  const saveToSession = useCallback((players: Player[], location: { lat: number; lng: number }) => {
+    try {
+      sessionStorage.setItem('mockPlayers', JSON.stringify(players));
+      sessionStorage.setItem('mockPlayersLocation', JSON.stringify(location));
+    } catch (e) {
+      console.error('Failed to save to session storage:', e);
     }
+  }, []);
 
-    function loadFromSession() {
-      try {
-        const players = storedPlayers ? JSON.parse(storedPlayers) : null;
-        const location = storedLocation ? JSON.parse(storedLocation) : null;
-        return { players, location };
-      } catch {
+  const loadFromSession = useCallback(() => {
+    try {
+      const storedPlayers = sessionStorage.getItem('mockPlayers');
+      const storedLocation = sessionStorage.getItem('mockPlayersLocation');
+      
+      if (!storedPlayers || !storedLocation) return { players: null, location: null };
+      
+      const players = JSON.parse(storedPlayers);
+      const location = JSON.parse(storedLocation);
+      
+      // Validate loaded data
+      if (!Array.isArray(players) || 
+          typeof location?.lat !== 'number' || 
+          typeof location?.lng !== 'number') {
         return { players: null, location: null };
       }
+      
+      return { players, location };
+    } catch (e) {
+      console.error('Failed to load from session storage:', e);
+      return { players: null, location: null };
     }
+  }, []);
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const location = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
+  // Copy Discord ID to clipboard
+  const copyDiscordId = useCallback(async (id: string) => {
+    try {
+      await navigator.clipboard.writeText(id);
+      setCopiedDiscordId(id);
+      setTimeout(() => setCopiedDiscordId(null), 1500);
+    } catch (err) {
+      console.error('Failed to copy Discord ID:', err);
+      setError('Failed to copy Discord ID to clipboard');
+      setTimeout(() => setError(null), 3000);
+    }
+  }, []);
 
-          // Check if we already have players for this location
-          const { players: sessionPlayers, location: sessionLoc } = loadFromSession();
-          if (
-            sessionPlayers && sessionLoc &&
-            Math.abs(sessionLoc.lat - location.lat) < 0.01 &&
-            Math.abs(sessionLoc.lng - location.lng) < 0.01
-          ) {
-            setUserLocation(sessionLoc);
-            setPlayers(sessionPlayers);
-            setFilteredPlayers(sessionPlayers);
-            setIsLoading(false);
-            return;
-          }
+  // Load players data
+  useEffect(() => {
+    let watchId: number | null = null;
+    const defaultLocation = { lat: 40.7128, lng: -74.0060 };
 
-          // Generate and save new mock players
-          const mockPlayers = generateMockPlayers(location.lat, location.lng);
-          const sortedPlayers = mockPlayers.sort((a, b) => a.distance - b.distance);
-          saveToSession(sortedPlayers, location);
-          setUserLocation(location);
-          setPlayers(sortedPlayers);
-          setFilteredPlayers(sortedPlayers);
-          setIsLoading(false);
-        },
-        (error) => {
-          console.error('Error getting location:', error, error?.message);
-          // Default to NYC coordinates
-          const defaultLocation = { lat: 40.7128, lng: -74.0060 };
+    const handleLocationSuccess = (position: GeolocationPosition) => {
+      const location = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
 
-          // Check if we already have players for this location
-          const { players: sessionPlayers, location: sessionLoc } = loadFromSession();
-          if (
-            sessionPlayers && sessionLoc &&
-            Math.abs(sessionLoc.lat - defaultLocation.lat) < 0.01 &&
-            Math.abs(sessionLoc.lng - defaultLocation.lng) < 0.01
-          ) {
-            setUserLocation(sessionLoc);
-            setPlayers(sessionPlayers);
-            setFilteredPlayers(sessionPlayers);
-            setIsLoading(false);
-            return;
-          }
-
-          // Generate and save new mock players
-          const mockPlayers = generateMockPlayers(defaultLocation.lat, defaultLocation.lng);
-          const sortedPlayers = mockPlayers.sort((a, b) => a.distance - b.distance);
-          saveToSession(sortedPlayers, defaultLocation);
-          setUserLocation(defaultLocation);
-          setPlayers(sortedPlayers);
-          setFilteredPlayers(sortedPlayers);
-          setIsLoading(false);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 60000,
-        }
-      );
-    } else {
-      const defaultLocation = { lat: 40.7128, lng: -74.0060 };
       const { players: sessionPlayers, location: sessionLoc } = loadFromSession();
-      if (
-        sessionPlayers && sessionLoc &&
-        Math.abs(sessionLoc.lat - defaultLocation.lat) < 0.01 &&
-        Math.abs(sessionLoc.lng - defaultLocation.lng) < 0.01
-      ) {
+      if (sessionPlayers && sessionLoc &&
+          Math.abs(sessionLoc.lat - location.lat) < 0.01 &&
+          Math.abs(sessionLoc.lng - location.lng) < 0.01) {
         setUserLocation(sessionLoc);
         setPlayers(sessionPlayers);
         setFilteredPlayers(sessionPlayers);
         setIsLoading(false);
         return;
       }
+
+      const mockPlayers = generateMockPlayers(location.lat, location.lng);
+      const sortedPlayers = mockPlayers.sort((a, b) => a.distance - b.distance);
+      saveToSession(sortedPlayers, location);
+      setUserLocation(location);
+      setPlayers(sortedPlayers);
+      setFilteredPlayers(sortedPlayers);
+      setIsLoading(false);
+    };
+
+    const handleLocationError = (error: GeolocationPositionError) => {
+      console.error('Error getting location:', error);
+      setError('Could not get your location. Using default location instead.');
+
+      const { players: sessionPlayers, location: sessionLoc } = loadFromSession();
+      if (sessionPlayers && sessionLoc &&
+          Math.abs(sessionLoc.lat - defaultLocation.lat) < 0.01 &&
+          Math.abs(sessionLoc.lng - defaultLocation.lng) < 0.01) {
+        setUserLocation(sessionLoc);
+        setPlayers(sessionPlayers);
+        setFilteredPlayers(sessionPlayers);
+        setIsLoading(false);
+        return;
+      }
+
       const mockPlayers = generateMockPlayers(defaultLocation.lat, defaultLocation.lng);
       const sortedPlayers = mockPlayers.sort((a, b) => a.distance - b.distance);
       saveToSession(sortedPlayers, defaultLocation);
@@ -333,9 +319,29 @@ export default function PlayerMap({ className }: PlayerMapProps) {
       setPlayers(sortedPlayers);
       setFilteredPlayers(sortedPlayers);
       setIsLoading(false);
-    }
-  }, [generateMockPlayers]);
+    };
 
+    if (typeof navigator !== 'undefined' && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        handleLocationSuccess,
+        handleLocationError,
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 60000,
+        }
+      );
+    } else {
+      setError('Geolocation is not supported by your browser. Using default location.');
+      handleLocationError({ code: 2, message: 'Geolocation not supported' } as GeolocationPositionError);
+    }
+
+    return () => {
+      // No cleanup needed for getCurrentPosition
+    };
+  }, [generateMockPlayers, loadFromSession, saveToSession]);
+
+  // Apply filters when any filter changes
   useEffect(() => {
     const filtered = filterPlayers(players, {
       searchTerm,
@@ -345,13 +351,17 @@ export default function PlayerMap({ className }: PlayerMapProps) {
       showGamesForSale,
     });
     setFilteredPlayers(filtered);
-  }, [searchTerm, selectedGame, maxDistance, onlineOnly, showGamesForSale, players]);
-
-  const games = getUniqueGames(players);
-  const gamesForSale = getUniqueGamesForSale(players);
+  }, [searchTerm, selectedGame, maxDistance, onlineOnly, showGamesForSale, players, filterPlayers]);
 
   return (
     <div className={`space-y-6 ${className}`}>
+      {/* Error message */}
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <span className="block sm:inline">{error}</span>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
@@ -363,6 +373,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
           <span>{filteredPlayers.length} players found</span>
         </div>
       </div>
+
       {/* Main Card with background image */}
       <div
         className="rounded-xl p-2 bg-cover bg-center"
@@ -488,6 +499,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
             </div>
           </CardContent>
         </Card>
+
         {/* Map */}
         <Card className="relative z-10">
           <CardContent className="p-0">
@@ -504,6 +516,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
             )}
           </CardContent>
         </Card>
+
         {/* Players List */}
         <Card>
           <CardHeader>
@@ -561,11 +574,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
                             <button
                               type="button"
                               className="p-1 rounded hover:bg-blue-200 transition"
-                              onClick={() => {
-                                navigator.clipboard.writeText(player.discordId || '');
-                                setCopiedDiscordId(player.discordId || '');
-                                setTimeout(() => setCopiedDiscordId(null), 1500);
-                              }}
+                              onClick={() => copyDiscordId(player.discordId || '')}
                               aria-label="Copy Discord ID"
                             >
                               {copiedDiscordId === player.discordId ? (
@@ -604,4 +613,4 @@ export default function PlayerMap({ className }: PlayerMapProps) {
       </div>
     </div>
   );
-} 
+}
