@@ -188,6 +188,13 @@ export default function MapComponent({ players, userLocation, className }: MapCo
 
         markersRef.current.push(marker);
       });
+      if (mapInstanceRef.current && players.length > 0) {
+        const group = L.featureGroup([
+          L.marker([userLocation.lat, userLocation.lng]),
+          ...players.map(p => L.marker([p.location.lat, p.location.lng]))
+        ]);
+        mapInstanceRef.current.fitBounds(group.getBounds().pad(0.2));
+      }
     }
   }, [userLocation, players]);
 
