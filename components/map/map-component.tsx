@@ -109,6 +109,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
 
       // Player markers
       players.forEach((player) => {
+        console.log('Adding marker for player:', player.name, player.location);
         const playerIcon = L.divIcon({
           className: 'player-marker',
           html: `
