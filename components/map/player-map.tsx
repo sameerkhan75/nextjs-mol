@@ -277,6 +277,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
       }
 
       const mockPlayers = generateMockPlayers(location.lat, location.lng);
+      console.log('Generated mock players:', mockPlayers);
       const sortedPlayers = mockPlayers.sort((a, b) => a.distance - b.distance);
       saveToSession(sortedPlayers, location);
       setUserLocation(location);
@@ -302,6 +303,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
       }
 
       const mockPlayers = generateMockPlayers(defaultLocation.lat, defaultLocation.lng);
+      console.log('Generated mock players (default location):', mockPlayers);
       const sortedPlayers = mockPlayers.sort((a, b) => a.distance - b.distance);
       saveToSession(sortedPlayers, defaultLocation);
       setUserLocation(defaultLocation);
@@ -339,6 +341,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
       onlineOnly,
       showGamesForSale,
     });
+    console.log('Filtered players:', filtered);
     setFilteredPlayers(filtered);
   }, [searchTerm, selectedGame, maxDistance, onlineOnly, showGamesForSale, players, filterPlayers]);
 
