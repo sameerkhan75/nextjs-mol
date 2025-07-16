@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { writeFile } from 'fs/promises';
 import path from 'path';
-//i will fix this tomorrow
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
