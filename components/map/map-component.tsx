@@ -11,6 +11,7 @@ interface GameForSale {
   platform: 'PS5' | 'PS4' | 'Xbox' | 'PC' | 'Nintendo Switch';
   description?: string;
 }
+//find the map why it isn't used
 
 interface Player {
   id: string;
