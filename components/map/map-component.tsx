@@ -60,7 +60,7 @@ export default function MapComponent({ players, userLocation, className }: MapCo
       }
     `;
     document.body.appendChild(script);
-
+//updated code
     if (!mapInstanceRef.current) {
       const map = L.map(mapRef.current).setView([userLocation.lat, userLocation.lng], 13);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
