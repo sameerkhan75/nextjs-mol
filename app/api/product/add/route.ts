@@ -38,10 +38,11 @@ export async function POST(req: NextRequest) {
 
     // 5) Return with 201
     return NextResponse.json({ product }, { status: 201 });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Add product error:", err);
+    const errorMessage = err instanceof Error ? err.message : "Failed to add product";
     return NextResponse.json(
-      { error: err.message || "Failed to add product" },
+      { error: errorMessage },
       { status: 500 }
     );
   }

@@ -15,8 +15,9 @@ export async function POST(req: NextRequest) {
     const filePath = path.join(process.cwd(), 'public', 'uploads', fileName);
     await writeFile(filePath, buffer);
     return NextResponse.json({ url: `/uploads/${fileName}` });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Image upload error:', err);
-    return NextResponse.json({ error: err.message || 'Upload failed' }, { status: 500 });
+    const errorMessage = err instanceof Error ? err.message : 'Upload failed';
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
