@@ -192,106 +192,219 @@ export default function PlayerMap({ className }: PlayerMapProps) {
   }, [players, filterPlayers]);
 
   return (
-    <div className={className}>
-      {error && <div className="bg-red-100 text-red-800 p-2 rounded mb-4">{error}</div>}
+    <div className={`space-y-6 ${className}`}>
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <Users className="h-6 w-6 text-blue-600" />
+          <h2 className="text-2xl font-bold">Find Players Nearby</h2>
+        </div>
+        <div className="flex items-center space-x-2 text-sm text-gray-600">
+          <MapPin className="h-4 w-4" />
+          <span>{filteredPlayers.length} players found</span>
+        </div>
+      </div>
 
-      {/* Search & Filters */}
-      <Card className="mb-4">
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Input
-              placeholder="Search by name or game..."
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
-              className="w-full"
-             />
-            <Select value={selectedGame} onValueChange={setSelectedGame}>
-              <SelectTrigger><SelectValue placeholder="All Games" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Games</SelectItem>
-                {games.map(g => <SelectItem key={g} value={g}>{g}</SelectItem>)}
-              </SelectContent>
-            </Select>
-            <Select value={showGamesForSale ? 'sale' : 'all'} onValueChange={val => setShowGamesForSale(val === 'sale')}>
-              <SelectTrigger><SelectValue placeholder="Games for Sale" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Players</SelectItem>
-                <SelectItem value="sale">With Games for Sale</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Map Section */}
-      <Card className="mb-4">
-        <CardContent className="p-0">
-          {isLoading ? (
-            <div className="w-full h-96 bg-gray-100 animate-pulse rounded-lg flex items-center justify-center">
-              <div className="text-gray-500">Loading map...</div>
-            </div>
-          ) : userLocation ? (
-            <MapComponent
-              players={filteredPlayers}
-              userLocation={userLocation}
-              className="w-full h-96 rounded-lg"
-            />
-          ) : (
-            <div className="w-full h-96 flex items-center justify-center text-gray-500">
-              Could not determine your location.
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Players List */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Users className="w-5 h-5 text-blue-600" />
-            <span>Players Nearby ({filteredPlayers.length})</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {filteredPlayers.length === 0 ? (
-            <div className="text-center text-gray-500 py-8">No players found.</div>
-          ) : (
-            filteredPlayers.map(player => (
-              <div key={player.id} className="border rounded-lg p-4 hover:bg-gray-50 transition">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-medium">{player.name}</h3>
-                    <p className="text-sm text-gray-600">{player.game}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-semibold">{formatDistance(player.distance)}</p>
-                    <p className="text-xs text-gray-500">{player.lastSeen}</p>
-                  </div>
-                </div>
-                {player.gamesForSale && player.gamesForSale.length > 0 && (
-                  <div className="mt-4 p-4 bg-green-50 rounded">
-                    <h4 className="font-medium text-green-800">Games for Sale</h4>
-                    <ul className="mt-2 space-y-2">
-                      {player.gamesForSale.map((game, idx) => (
-                        <li key={idx} className="flex justify-between">
-                          <span className="font-medium">{game.name}</span>
-                          <span className="text-green-600">₹{game.price}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="mt-2 flex items-center space-x-2">
-                      <Copy className="w-4 h-4 text-blue-600" />
-                      <button onClick={() => copyDiscordId(player.discordId || '')} className="text-blue-600 underline underline-offset-2">
-                        {copiedDiscordId === player.discordId ? 'Copied!' : player.discordId}
-                      </button>
-                    </div>
-                  </div>
-                )}
+      {/* Main Card with background image */}
+      <div className="rounded-xl p-2 bg-cover bg-center" style={{ backgroundImage: "url('/images/bbg.jpeg')" }}>
+        {/* Search and Filter */}
+        <Card className="relative z-20 mb-4">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Search className="h-5 w-5" />
+              <span>Search & Filter</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Search Players & Games</label>
+                <Input
+                  placeholder="Search by name, game, or games for sale..."
+                  value={searchTerm}
+                  onChange={e => setSearchTerm(e.target.value)}
+                  className="w-full"
+                />
               </div>
-            ))
-          )}
-        </CardContent>
-      </Card>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Filter by Game</label>
+                <Select value={selectedGame} onValueChange={setSelectedGame}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select game" />
+                  </SelectTrigger>
+                  <SelectContent className="z-[9999]">
+                    <SelectItem value="all">All Games</SelectItem>
+                    {games.map(game => (
+                      <SelectItem key={game} value={game}>{game}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Filter by Games for Sale</label>
+                <Select value={showGamesForSale ? 'sale' : 'all'} onValueChange={val => setShowGamesForSale(val === 'sale')}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="All Games for Sale" />
+                  </SelectTrigger>
+                  <SelectContent className="z-[9999]">
+                    <SelectItem value="all">All Games for Sale</SelectItem>
+                    {gamesForSale.map(game => (
+                      <SelectItem key={game} value={game}>{game}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Max Distance (km)</label>
+                <Select value={maxDistance.toString()} onValueChange={val => setMaxDistance(Number(val))}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="z-[9999]">
+                    <SelectItem value="2">2 km</SelectItem>
+                    <SelectItem value="5">5 km</SelectItem>
+                    <SelectItem value="10">10 km</SelectItem>
+                    <SelectItem value="25">25 km</SelectItem>
+                    <SelectItem value="50">50 km</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Status</label>
+                <div className="flex items-center space-x-4">
+                  <Button
+                    variant={onlineOnly ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setOnlineOnly(!onlineOnly)}
+                    className="flex items-center space-x-2"
+                  >
+                    {onlineOnly ? <Wifi className="h-4 w-4" /> : <WifiOff className="h-4 w-4" />}
+                    <span>{onlineOnly ? 'Online Only' : 'All Players'}</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setSearchTerm('');
+                      setSelectedGame('all');
+                      setShowGamesForSale(false);
+                    }}
+                  >
+                    Clear
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Map */}
+        <Card className="relative z-10 mb-4">
+          <CardContent className="p-0">
+            {isLoading ? (
+              <div className="w-full h-96 bg-gray-100 animate-pulse rounded-lg flex items-center justify-center">
+                <div className="text-gray-500">Loading map...</div>
+              </div>
+            ) : (
+              <MapComponent
+                players={filteredPlayers}
+                userLocation={userLocation}
+                className="w-full h-96 rounded-lg"
+              />
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Players List */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              <span>Nearby Players</span>
+              {showGamesForSale && (
+                <div className="flex items-center space-x-2 text-sm text-green-600">
+                  <DollarSign className="h-4 w-4" />
+                  <span>Showing players with games for sale</span>
+                </div>
+              )}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {filteredPlayers.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  {searchTerm ? `No players found selling "${searchTerm}"` : 'No players found nearby'}
+                </div>
+              ) : (
+                filteredPlayers.map(player => (
+                  <div key={player.id} className="border rounded-lg hover:bg-gray-50 transition-colors">
+                    {/* Player Info */}
+                    <div className="flex items-center justify-between p-4 border-b">
+                      <div className="flex items-center space-x-3">
+                        <div className={`w-3 h-3 rounded-full ${player.isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />
+                        <div>
+                          <h3 className="font-medium">{player.name}</h3>
+                          <p className="text-sm text-gray-600">{player.game}</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-medium">{formatDistance(player.distance)} away</p>
+                        <p className="text-xs text-gray-500">{player.lastSeen}</p>
+                        {player.level && (
+                          <p className="text-xs text-blue-600">Level {player.level}</p>
+                        )}
+                      </div>
+                    </div>
+                    {/* Games for Sale */}
+                    {player.gamesForSale && player.gamesForSale.length > 0 && (
+                      <div className="p-4 bg-green-50">
+                        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-3 gap-2">
+                          <div className="flex items-center space-x-2">
+                            <DollarSign className="h-4 w-4 text-green-600" />
+                            <h4 className="font-medium text-green-800">Games for Sale</h4>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-xs text-blue-600 font-medium">Message me on Discord:</span>
+                            <span className="text-xs font-mono bg-blue-100 text-blue-800 px-2 py-0.5 rounded">{player.discordId}</span>
+                            <button
+                              type="button"
+                              className="p-1 rounded hover:bg-blue-200 transition"
+                              onClick={() => copyDiscordId(player.discordId || '')}
+                              aria-label="Copy Discord ID"
+                            >
+                              {copiedDiscordId === player.discordId ? (
+                                <span className="text-xs text-green-600 font-semibold">Copied!</span>
+                              ) : (
+                                <Copy className="w-4 h-4 text-blue-600" />
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                          {player.gamesForSale.map((game, index) => (
+                            <div key={index} className="bg-white p-3 rounded border">
+                              <div className="flex items-center justify-between mb-2">
+                                <h5 className="font-medium text-sm">{game.name}</h5>
+                                <span className="text-green-600 font-bold">₹{game.price}</span>
+                              </div>
+                              <div className="flex items-center justify-between text-xs text-gray-600">
+                                <span className="capitalize">{game.condition}</span>
+                                <span>{game.platform}</span>
+                              </div>
+                              {game.description && (
+                                <p className="text-xs text-gray-500 mt-1">{game.description}</p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
