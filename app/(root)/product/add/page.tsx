@@ -20,30 +20,39 @@ export default function AddProductPage() {
     e.preventDefault();
     setError("");
     setSuccess(false);
+
     const userId = discordId || session?.user?.email;
     if (!userId) {
       setError("You must be logged in or provide a Discord ID to add a product.");
       return;
     }
+
+    // --- Upload Image ---
     let imageUrl = "";
     if (imageFile) {
       const formData = new FormData();
       formData.append("file", imageFile);
+
       const uploadRes = await fetch("/api/upload", {
         method: "POST",
         body: formData,
       });
-      if (uploadRes.ok) {
-        const data = await uploadRes.json();
-        imageUrl = data.url;
-      } else {
-        setError("Image upload failed.");
+
+      if (!uploadRes.ok) {
+        const text = await uploadRes.text();
+        console.error("Image upload failed:", uploadRes.status, text);
+        setError(`Image upload failed: ${text}`);
         return;
       }
+
+      const data = await uploadRes.json();
+      imageUrl = data.url; // e.g. "/uploads/abcd1234.png"
     } else {
       setError("Please select an image.");
       return;
     }
+
+    // --- Create Product ---
     const res = await fetch("/api/product/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -69,17 +78,28 @@ export default function AddProductPage() {
         numSales: 0,
       }),
     });
-    if (res.ok) setSuccess(true);
-    else setError("Failed to add product.");
+
+    if (res.ok) {
+      setSuccess(true);
+      setName("");
+      setPrice("");
+      setListPrice("");
+      setBrand("");
+      setCategory("");
+      setDescription("");
+      setImageFile(null);
+      setImagePreview("");
+    } else {
+      const text = await res.text();
+      console.error("Product creation failed:", res.status, text);
+      setError("Failed to add product.");
+    }
   }
 
   return (
     <div style={{
       minHeight: '100vh',
-      background: `url('/images/toroto.jpeg')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
+      background: `url('/images/toroto.jpeg') center/cover no-repeat`,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -91,7 +111,7 @@ export default function AddProductPage() {
         background: 'rgba(255,255,255,0.97)',
         borderRadius: '1.5rem',
         boxShadow: '0 8px 32px rgba(55,48,163,0.10)',
-        padding: '2.5rem 2rem 2rem 2rem',
+        padding: '2.5rem 2rem 2rem',
         fontFamily: 'Inter, sans-serif',
       }}>
         <h2 style={{
@@ -102,6 +122,7 @@ export default function AddProductPage() {
           marginBottom: '2rem',
           letterSpacing: '-1px',
         }}>Add Product</h2>
+
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {!session?.user?.email && (
             <input
@@ -164,7 +185,11 @@ export default function AddProductPage() {
             style={inputStyle}
           />
           {imagePreview && (
-            <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', maxHeight: 180, borderRadius: 8, marginBottom: 8, objectFit: 'cover', alignSelf: 'center' }} />
+            <img
+              src={imagePreview}
+              alt="Preview"
+              style={{ maxWidth: '100%', maxHeight: 180, borderRadius: 8, objectFit: 'cover', alignSelf: 'center' }}
+            />
           )}
           <textarea
             placeholder="Description"
@@ -174,8 +199,9 @@ export default function AddProductPage() {
           />
           <button type="submit" style={buttonStyle}>Add Product</button>
         </form>
+
         {success && <p style={{ color: "green", textAlign: 'center', marginTop: 16 }}>Product added!</p>}
-        {error && <p style={{ color: "red", textAlign: 'center', marginTop: 16 }}>{error}</p>}
+        {error &&   <p style={{ color: "red",   textAlign: 'center', marginTop: 16 }}>{error}</p>}
       </div>
     </div>
   );
@@ -186,10 +212,8 @@ const inputStyle: React.CSSProperties = {
   borderRadius: '0.7rem',
   border: '1px solid #c7d2fe',
   fontSize: '1.05rem',
-  marginBottom: 0,
-  outline: 'none',
   background: '#f1f5f9',
-  color: '#1e293b',
+  outline: 'none',
   transition: 'border 0.2s, box-shadow 0.2s',
   boxShadow: '0 1px 4px rgba(99,102,241,0.04)',
 };
@@ -206,4 +230,4 @@ const buttonStyle: React.CSSProperties = {
   cursor: 'pointer',
   boxShadow: '0 2px 8px rgba(99,102,241,0.10)',
   transition: 'background 0.2s, box-shadow 0.2s',
-}; 
+};
