@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MapPin, Users, Filter, Search, Wifi, WifiOff, DollarSign, Package, Copy } from 'lucide-react';
+import { MapPin, Users, Search, Wifi, WifiOff, DollarSign, Copy } from 'lucide-react';
 
 // Dynamically import the map component to avoid SSR issues
 const MapComponent = dynamic(() => import('./map-component'), {
@@ -56,12 +56,10 @@ export default function PlayerMap({ className }: PlayerMapProps) {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [copiedDiscordId, setCopiedDiscordId] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
 
   // On mount: request geolocation
   useEffect(() => {
     if (!navigator.geolocation) {
-      setError('Geolocation is not supported by your browser.');
       setIsLoading(false);
       return;
     }
@@ -71,7 +69,6 @@ export default function PlayerMap({ className }: PlayerMapProps) {
         setIsLoading(false);
       },
       () => {
-        setError('Unable to retrieve your location.');
         setIsLoading(false);
       },
       { enableHighAccuracy: true }
@@ -82,21 +79,21 @@ export default function PlayerMap({ className }: PlayerMapProps) {
   const calculateDistance = useCallback(
     (lat1: number, lon1: number, lat2: number, lon2: number) => {
       const R = 6371;
-      const dLat = (lat2 - lat1) * Math.PI / 180;
-      const dLon = (lon2 - lon1) * Math.PI / 180;
-      const a =
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = 
         Math.sin(dLat / 2) ** 2 +
-        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
         Math.sin(dLon / 2) ** 2;
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return R * c;
+    return R * c;
     },
     []
   );
 
   const generateGamesForSale = useCallback((): GameForSale[] => {
     const allGames = [
-      'FIFA 24', 'Call of Duty: Modern Warfare III', 'Fortnite', 'God of War: Ragnarök',
+      'FIFA 24', 'Call of Duty: Modern Warfare III', 'Fortnite', 'God of War: Ragnarök', 
       'Valorant', 'GTA 5', 'Marvels Spider-Man', 'CS:GO', 'Red Dead Redemption II',
       'The Last of Us Part II', 'Cyberpunk 2077', 'Assassins Creed Valhalla',
       'FIFA 23', 'Call of Duty: Warzone', 'Apex Legends', 'Overwatch 2',
@@ -118,27 +115,27 @@ export default function PlayerMap({ className }: PlayerMapProps) {
   const generateMockPlayers = useCallback(
     (userLat: number, userLng: number): Player[] => {
       const gamesList = ['FIFA 24', 'Call of Duty', 'Fortnite', 'God of War: Ragnarök', 'Valorant'];
-      const names = ['Alex', 'Sarah', 'Mike', 'Emma', 'John', 'Lisa', 'David'];
+    const names = ['Alex', 'Sarah', 'Mike', 'Emma', 'John', 'Lisa', 'David'];
       return Array.from({ length: 10 }).map((_, i) => {
         const angle = Math.random() * 2 * Math.PI;
         const radius = maxDistance;
-        const distance = Math.sqrt(Math.random()) * radius;
-        const latOffset = (distance * Math.cos(angle)) / 111.32;
-        const lngOffset = (distance * Math.sin(angle)) / (111.32 * Math.cos(userLat * Math.PI / 180));
+      const distance = Math.sqrt(Math.random()) * radius;
+      const latOffset = (distance * Math.cos(angle)) / 111.32;
+      const lngOffset = (distance * Math.sin(angle)) / (111.32 * Math.cos(userLat * Math.PI / 180));
         const lat = userLat + latOffset;
         const lng = userLng + lngOffset;
-        return {
+      return {
           id: `player-${i}`,
           name: `${names[i % names.length]}_${Math.floor(Math.random() * 1000)}`,
           game: gamesList[i % gamesList.length],
           location: { lat, lng },
           distance: calculateDistance(userLat, userLng, lat, lng),
-          isOnline: Math.random() > 0.3,
-          lastSeen: `${Math.floor(Math.random() * 60)} minutes ago`,
-          gamesForSale: generateGamesForSale(),
+        isOnline: Math.random() > 0.3,
+        lastSeen: `${Math.floor(Math.random() * 60)} minutes ago`,
+        gamesForSale: generateGamesForSale(),
           discordId: `user${i}#${1000 + i}`
-        };
-      });
+      };
+    });
     },
     [calculateDistance, generateGamesForSale, maxDistance]
   );
@@ -159,7 +156,7 @@ export default function PlayerMap({ className }: PlayerMapProps) {
         if (p.distance > maxDistance) return false;
         if (onlineOnly && !p.isOnline) return false;
         if (showGamesForSale && (!p.gamesForSale || !p.gamesForSale.length)) return false;
-        return true;
+      return true;
       }),
     [searchTerm, selectedGame, maxDistance, onlineOnly, showGamesForSale]
   );
