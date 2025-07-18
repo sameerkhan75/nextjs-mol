@@ -1,21 +1,48 @@
+// app/api/product/add/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import Product from "@/lib/db/models/product.model";
 import { connectToDatabase } from "@/lib/db";
 
+// Connect once at module load
+connectToDatabase().catch(err => {
+  console.error("❌ DB connection error:", err);
+});
+
 export async function POST(req: NextRequest) {
-  await connectToDatabase();
-
-  const data = await req.json();
-
-  if (!data.userId) {
-    return NextResponse.json({ error: "Missing userId" }, { status: 401 });
-  }
-
   try {
+    // 1) Ensure JSON content
+    const contentType = req.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+      return NextResponse.json(
+        { error: "Expected application/json" },
+        { status: 415 }
+      );
+    }
+
+    // 2) Parse body
+    const data = await req.json();
+
+    // 3) Basic validation
+    const requiredFields = ["name", "price", "images", "userId"];
+    for (const field of requiredFields) {
+      if (!data[field]) {
+        return NextResponse.json(
+          { error: `Missing required field: ${field}` },
+          { status: 400 }
+        );
+      }
+    }
+
+    // 4) Create
     const product = await Product.create(data);
+
+    // 5) Return with 201
     return NextResponse.json({ product }, { status: 201 });
-  } catch (err) {
+  } catch (err: any) {
     console.error("Add product error:", err);
-    return NextResponse.json({ error: "Failed to add product" }, { status: 500 });
+    return NextResponse.json(
+      { error: err.message || "Failed to add product" },
+      { status: 500 }
+    );
   }
 }
