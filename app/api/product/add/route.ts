@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Product from "@/lib/db/models/product.model";
 import { connectToDatabase } from "@/lib/db";
-
+//THIS ERROR TO BE RESOLVED
 // Connect once at module load
 connectToDatabase().catch(err => {
   console.error("❌ DB connection error:", err);
