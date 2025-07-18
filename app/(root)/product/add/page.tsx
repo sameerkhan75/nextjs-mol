@@ -26,7 +26,6 @@ export default function AddProductPage() {
       setError("You must be logged in or provide a Discord ID to add a product.");
       return;
     }
-
     // --- Upload Image ---
     let imageUrl = "";
     if (imageFile) {
