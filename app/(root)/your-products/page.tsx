@@ -41,12 +41,14 @@ export default async function YourProductsPage() {
         color: '#000',
       }}>
         <h1 style={{ 
-          fontSize: '2.5rem', 
-          fontWeight: 'bold', 
+          fontSize: '2.7rem', 
+          fontWeight: 900, 
           marginBottom: '2rem',
           textAlign: 'center',
-          color: '#fff',
-          textShadow: '2px 2px 4px rgba(0,0,0,0.7)'
+          color: '#18181b', // deep black
+          fontFamily: 'Inter, Segoe UI, Arial, sans-serif',
+          letterSpacing: '-1px',
+          textShadow: '0 2px 8px rgba(0,0,0,0.08)'
         }}>Your Products</h1>
         
         {products.length === 0 ? (
