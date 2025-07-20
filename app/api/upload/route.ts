@@ -15,7 +15,13 @@ export async function POST(req: NextRequest) {
       file.stream(),
       { access: 'public' }
     );
-
+//will do this later
+/* npx vercel login
+npx vercel tokens list
+# or
+npx vercel tokens ls
+npx vercel tokens create
+*/
     return NextResponse.json({ url: blob.url });
   } catch (err: unknown) {
     console.error('Image upload error:', err);
