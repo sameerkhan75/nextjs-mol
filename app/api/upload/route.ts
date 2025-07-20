@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile } from 'fs/promises';
-import path from 'path';
+import { put } from '@vercel/blob';
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,12 +8,15 @@ export async function POST(req: NextRequest) {
     if (!file) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
     }
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const fileName = `${Date.now()}-${file.name}`;
-    const filePath = path.join(process.cwd(), 'public', 'uploads', fileName);
-    await writeFile(filePath, buffer);
-    return NextResponse.json({ url: `/uploads/${fileName}` });
+
+    // Upload to Vercel Blob
+    const blob = await put(
+      file.name,
+      file.stream(),
+      { access: 'public' }
+    );
+
+    return NextResponse.json({ url: blob.url });
   } catch (err: unknown) {
     console.error('Image upload error:', err);
     const errorMessage = err instanceof Error ? err.message : 'Upload failed';
