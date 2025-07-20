@@ -15,6 +15,7 @@ export default async function YourProductsPage() {
 
   const products = await Product.find({ userId: session.user.email }).lean();
 //have to review this code for once
+//new code
   return (
     <div style={{
       minHeight: '100vh',
