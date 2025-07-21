@@ -13,7 +13,7 @@ export default function Menu() {
           <>
             <span className='font-bold flex items-center gap-2'>
               <UserIcon className='h-8 w-8' />
-              {session.user?.name?.split(' ')[0]}
+              {`Hello, ${session.user?.name?.split(' ')[0]}`}
             </span>
             <button onClick={() => signOut()} className='header-button flex items-center gap-2'>
               <span className='font-bold'>Sign out</span>
