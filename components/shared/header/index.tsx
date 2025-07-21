@@ -40,14 +40,6 @@ export default function Header() {
           </div>
 
           <div className='flex items-center px-3 mb-[1px] bg-[#878787]'>
-            <Button
-              variant='ghost'
-              className='header-button flex items-center gap-1 text-base [&_svg]:size-6'
-            >
-              <MenuIcon />
-              All
-            </Button>
-
             <div className='flex items-center flex-wrap gap-3 overflow-hidden max-h-[42px]'>
               {data.headerMenus.map((menu) => (
                 <Link
