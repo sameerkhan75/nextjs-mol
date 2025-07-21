@@ -1,6 +1,5 @@
 "use client";
-import { ShoppingCartIcon, UserIcon } from 'lucide-react'
-import Link from 'next/link'
+import { UserIcon } from 'lucide-react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 
 export default function Menu() {
