@@ -22,10 +22,7 @@ export default function Menu() {
           </button>
         )}
 
-        <Link href='/cart' className='header-button'>
-          <ShoppingCartIcon className='h-8 w-8' />
-          <span className='font-bold'>Cart</span>
-        </Link>
+
       </nav>
     </div>
   )
