@@ -1,31 +1,18 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { put } from '@vercel/blob';
+import { NextRequest, NextResponse } from "next/server";
+import { uploadFileToS3 } from "@/lib/aws/s3";
 
 export async function POST(req: NextRequest) {
-  try {
-    const formData = await req.formData();
-    const file = formData.get('file') as File;
-    if (!file) {
-      return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
-    }
+  const formData = await req.formData();
+  const file = formData.get("file") as File;
 
-    // Upload to Vercel Blob
-    const blob = await put(
-      file.name,
-      file.stream(),
-      { access: 'public' }
-    );
-//will do this later
-/* npx vercel login
-npx vercel tokens list
-# or
-npx vercel tokens ls
-npx vercel tokens create
-*/
-    return NextResponse.json({ url: blob.url });
-  } catch (err: unknown) {
-    console.error('Image upload error:', err);
-    const errorMessage = err instanceof Error ? err.message : 'Upload failed';
-    return NextResponse.json({ error: errorMessage }, { status: 500 });
+  if (!file) {
+    return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
   }
+
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+
+  const url = await uploadFileToS3(buffer, file.type);
+
+  return NextResponse.json({ url });
 }
