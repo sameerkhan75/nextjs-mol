@@ -18,7 +18,7 @@ export async function uploadFileToS3(fileBuffer: Buffer, fileType: string) {
     Key: fileName,
     Body: fileBuffer,
     ContentType: fileType,
-    ACL: "public-read", // Make file public
+   // ACL: "public-read", // Make file public
   });
 
   await s3.send(command);
