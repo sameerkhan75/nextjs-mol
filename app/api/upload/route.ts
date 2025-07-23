@@ -1,4 +1,3 @@
-// app/api/upload/route.ts
 export const runtime = 'nodejs';
 
 import { NextRequest, NextResponse } from "next/server";
@@ -14,11 +13,18 @@ export async function POST(req: NextRequest) {
 
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-
     const url = await uploadFileToS3(buffer, file.type);
+
     return NextResponse.json({ url });
-  } catch (err: any) {
-    console.error("S3 upload error:", err);
-    return NextResponse.json({ error: err.message || "Upload failed" }, { status: 500 });
+  } catch (error: unknown) {
+    // Narrow the unknown before accessing .message
+    const message =
+      error instanceof Error ? error.message : String(error);
+
+    console.error("S3 upload error:", error);
+    return NextResponse.json(
+      { error: message || "Upload failed" },
+      { status: 500 }
+    );
   }
 }
