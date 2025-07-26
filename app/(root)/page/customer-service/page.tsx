@@ -1,49 +1,79 @@
-"use client";
-
-import Link from "next/link";
-
+import React from 'react';
+import Link from 'next/link';
+//update this file
 export default function CustomerServicePage() {
   return (
-    <div className="min-h-screen flex items-center justify-center relative bg-cover bg-center bg-no-repeat"
-         style={{ backgroundImage: "url('/images/noo.jpeg')" }}>
-      <div className="absolute inset-0 bg-white/10" />
-      
-      <div className="relative z-10 max-w-md w-full bg-white/95 rounded-xl shadow-lg p-8 font-sans">
-        <h1 className="text-3xl font-bold text-indigo-900 text-center mb-5">
-          Moltres Support
+    <div style={{
+      minHeight: '100vh',
+      backgroundImage: "url('/images/noo.jpeg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      position: 'relative',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 1,
+      }} />
+      <div style={{
+        maxWidth: 500,
+        margin: '0 auto',
+        padding: '2rem',
+        borderRadius: '1rem',
+        background: 'rgba(255,255,255,0.95)',
+        boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+        fontFamily: 'Inter, sans-serif',
+        position: 'relative',
+        zIndex: 2,
+      }}>
+        <h1 style={{
+          fontSize: '2.2rem',
+          fontWeight: 700,
+          color: '#3730a3',
+          marginBottom: '1.2rem',
+          textAlign: 'center',
+        }}>
+          Moltres support
         </h1>
-        
-        <p className="text-gray-700 text-center mb-6 text-lg">
+        <p style={{ fontSize: '1.1rem', color: '#334155', marginBottom: '1.5rem', textAlign: 'center' }}>
           We are here to help you with any issues or questions about your orders, products, or sellers.
         </p>
-
-        <div className="bg-white rounded-lg shadow-md p-5 mb-6">
-          <h2 className="text-red-600 font-semibold text-lg mb-2">
+        <div style={{
+          background: '#fff',
+          borderRadius: '0.75rem',
+          padding: '1.2rem',
+          marginBottom: '1.5rem',
+          boxShadow: '0 2px 8px rgba(55,48,163,0.07)',
+        }}>
+          <h2 style={{ color: '#dc2626', fontWeight: 600, fontSize: '1.1rem', marginBottom: 8 }}>
             ⚠️ Report a Scam or Wrong Product
           </h2>
-          <p className="text-gray-600 mb-3">
+          <p style={{ color: '#475569', marginBottom: 8 }}>
             If someone has scammed you or sent you the wrong product, please contact us immediately:
           </p>
-          <ul className="text-gray-800 list-disc pl-5 mb-3">
-            <li>
-              Email:{" "}
-              <Link href="mailto:sameer754811@gmail.com" className="text-blue-600 underline">
-                sameer754811@gmail.com
-              </Link>
-            </li>
-            <li>
-              Phone:{" "}
-              <Link href="tel:8630900119" className="text-blue-600 underline">
-                8630900119
-              </Link>
-            </li>
+          <ul style={{ color: '#1e293b', fontSize: '1rem', marginLeft: 20, marginBottom: 8 }}>
+            <li>Email: <Link href="mailto:sameer754811@gmail.com" style={{ color: '#2563eb', textDecoration: 'underline' }}>sameer754811@gmail.com</Link></li>
+            <li>Phone: <Link href="tel:8630900119" style={{ color: '#2563eb', textDecoration: 'underline' }}>8630900119</Link></li>
           </ul>
-          <p className="text-gray-500 text-sm">
+          <p style={{ color: '#64748b', fontSize: '0.98rem' }}>
             Our team will investigate and take action as soon as possible. Please provide all relevant details and evidence.
           </p>
         </div>
-
-        <div className="bg-slate-100 rounded-lg p-4 text-center text-gray-700 text-base">
+        <div style={{
+          background: '#f1f5f9',
+          borderRadius: '0.75rem',
+          padding: '1rem',
+          textAlign: 'center',
+          color: '#334155',
+          fontSize: '1rem',
+        }}>
           <strong>Need help with something else?</strong>
           <br />
           Reach out to us for any support regarding your orders, returns, or account.
@@ -51,4 +81,4 @@ export default function CustomerServicePage() {
       </div>
     </div>
   );
-}
+} 
