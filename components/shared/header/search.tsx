@@ -1,6 +1,6 @@
 import { SearchIcon } from 'lucide-react'
 import { Input } from '@/components/ui/input'
-//next step update this
+//next step update this search for data in database
 import {
   Select,
   SelectContent,
