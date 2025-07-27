@@ -11,7 +11,7 @@ import {
 import { APP_NAME } from '@/lib/constants'
 
 const categories = ['consoles', 'PC Builds', 'accessories']
-
+//need to connect to the database
 export default async function Search() {
   return (
     <form action='/search' method='GET' className='flex items-stretch h-9'>
