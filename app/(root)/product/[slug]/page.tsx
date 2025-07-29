@@ -64,11 +64,6 @@ export default async function ProductDetails(props: {
               <h1 className='font-bold text-lg lg:text-xl'>
                 {product.name}
               </h1>
-              <div className='flex items-center gap-2'>
-                <span>{product.avgRating.toFixed(1)}</span>
-                <Rating rating={product.avgRating} />
-                <span>{product.numReviews} ratings</span>
-              </div>
               <Separator />
               <div className='flex flex-col gap-3 sm:flex-row sm:items-center'>
                 <div className='flex gap-3'>
