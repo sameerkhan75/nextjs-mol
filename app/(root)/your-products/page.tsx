@@ -91,7 +91,7 @@ export default async function YourProductsPage() {
                 <Link href={`/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                   <div style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
                     <Image
-                      src={product.images[0] || '/images/xbox.jpeg'}
+                      src={product.images[0]}
                       alt={product.name}
                       fill
                       style={{ objectFit: 'cover' }}
