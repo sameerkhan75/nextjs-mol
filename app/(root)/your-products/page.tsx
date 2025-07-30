@@ -1,8 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import Product, { IProduct } from "@/lib/db/models/product.model";
+import Product from "@/lib/db/models/product.model";
 import { connectToDatabase } from "@/lib/db";
-import Image from "next/image";
 import Link from "next/link";
 import ProductListClient from "./ProductListClient";
 
