@@ -4,7 +4,7 @@ import Product from "@/lib/db/models/product.model";
 import { connectToDatabase } from "@/lib/db";
 import Link from "next/link";
 import ProductListClient from "./ProductListClient";
-
+//next day i have to make the search bar work
 export default async function YourProductsPage() {
   await connectToDatabase();
   const session = await getServerSession(authOptions);
