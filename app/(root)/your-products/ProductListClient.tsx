@@ -95,7 +95,7 @@ export default function ProductListClient({ initialProducts }: { initialProducts
                 disabled={isPending}
                 style={{
                   marginTop: '1rem',
-                  background: '#b4b4b4',
+                  background: '#636363',
                   color: 'white',
                   border: 'none',
                   borderRadius: '0.5rem',
