@@ -95,14 +95,15 @@ export default function ProductListClient({ initialProducts }: { initialProducts
                 disabled={isPending}
                 style={{
                   marginTop: '1rem',
-                  background: '#ef4444',
+                  background: '#b4b4b4',
                   color: 'white',
                   border: 'none',
                   borderRadius: '0.5rem',
-                  padding: '0.5rem 1rem',
+                  padding: '0.25rem 0.75rem',
                   fontWeight: 'bold',
                   cursor: 'pointer',
-                  width: '100%'
+                  width: 'auto',
+                  fontSize: '0.8rem'
                 }}
               >
                 {isPending ? 'Removing...' : 'Remove'}
