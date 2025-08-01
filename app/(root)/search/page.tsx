@@ -13,11 +13,11 @@ import {
 import { SearchIcon } from 'lucide-react'
 
 interface SearchPageProps {
-  searchParams: {
+  searchParams: Promise<{
     q?: string
     category?: string
     page?: string
-  }
+  }>
 }
 
 async function SearchResults({ 
@@ -92,9 +92,10 @@ async function SearchResults({
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
-  const query = searchParams.q || ''
-  const category = searchParams.category || 'all'
-  const page = parseInt(searchParams.page || '1')
+  const params = await searchParams
+  const query = params.q || ''
+  const category = params.category || 'all'
+  const page = parseInt(params.page || '1')
   
   const categories = await getAllCategories()
 
