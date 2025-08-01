@@ -71,3 +71,56 @@ export async function getRelatedProductsByCategory({
     totalPages: Math.ceil(productsCount / limit),
   }
 }
+
+// SEARCH PRODUCTS
+export async function searchProducts({
+  query = '',
+  category = 'all',
+  page = 1,
+  limit = 12,
+}: {
+  query?: string
+  category?: string
+  page?: number
+  limit?: number
+}) {
+  await connectToDatabase()
+  
+  const skipAmount = (page - 1) * limit
+  const conditions: any = { isPublished: true }
+  
+  // Add category filter if not 'all'
+  if (category && category !== 'all') {
+    conditions.category = category
+  }
+  
+  // Add text search if query exists
+  if (query.trim()) {
+    conditions.$or = [
+      { name: { $regex: query, $options: 'i' } },
+      { description: { $regex: query, $options: 'i' } },
+      { brand: { $regex: query, $options: 'i' } },
+      { tags: { $in: [new RegExp(query, 'i')] } }
+    ]
+  }
+
+  const products = await Product.find(conditions)
+    .sort({ createdAt: 'desc' })
+    .skip(skipAmount)
+    .limit(limit)
+    .lean()
+
+  const totalCount = await Product.countDocuments(conditions)
+  const totalPages = Math.ceil(totalCount / limit)
+
+  return {
+    products: JSON.parse(JSON.stringify(products)) as IProduct[],
+    pagination: {
+      currentPage: page,
+      totalPages,
+      totalCount,
+      hasNextPage: page < totalPages,
+      hasPrevPage: page > 1
+    }
+  }
+}
