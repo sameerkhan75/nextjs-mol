@@ -6,6 +6,17 @@ connectToDatabase().catch(err => {
   console.error("❌ DB connection error:", err);
 });
 
+interface SearchConditions {
+  isPublished: boolean
+  category?: string
+  $or?: Array<{
+    name?: { $regex: string; $options: string }
+    description?: { $regex: string; $options: string }
+    brand?: { $regex: string; $options: string }
+    tags?: { $in: RegExp[] }
+  }>
+}
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url)
@@ -16,7 +27,7 @@ export async function GET(req: NextRequest) {
     const skip = (page - 1) * limit
 
     // Build search conditions
-    const conditions: any = { isPublished: true }
+    const conditions: SearchConditions = { isPublished: true }
     
     // Add category filter if not 'all'
     if (category && category !== 'all') {

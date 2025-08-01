@@ -87,7 +87,16 @@ export async function searchProducts({
   await connectToDatabase()
   
   const skipAmount = (page - 1) * limit
-  const conditions: any = { isPublished: true }
+  const conditions: {
+    isPublished: boolean
+    category?: string
+    $or?: Array<{
+      name?: { $regex: string; $options: string }
+      description?: { $regex: string; $options: string }
+      brand?: { $regex: string; $options: string }
+      tags?: { $in: RegExp[] }
+    }>
+  } = { isPublished: true }
   
   // Add category filter if not 'all'
   if (category && category !== 'all') {
