@@ -29,7 +29,7 @@ export default async function Search() {
         </SelectContent>
       </Select>
       <Input
-        className='flex-1 rounded-none dark:border-gray-200 bg-gray-100 text-black text-base h-full border-x-0'
+        className='flex-1 rounded-none border-0 bg-white text-black text-base h-full px-3 focus-visible:ring-0 focus-visible:border-0'
         placeholder={`Search ${APP_NAME}`}
         name='q'
         type='search'
