@@ -85,30 +85,30 @@ export default function HelpPage() {
            <strong style={{ color: '#8B7355', fontSize: '1.13rem' }}>Still need help?</strong>
           <br />
           <div style={{ margin: '1.1rem 0 0.7rem 0', display: 'flex', flexDirection: 'column', gap: '0.7rem', alignItems: 'center' }}>
-            <Link href="mailto:sameer754811@gmail.com" style={{
-              background: '#6366f1',
-              color: '#fff',
-              padding: '0.55rem 1.3rem',
-              borderRadius: '0.7rem',
-              textDecoration: 'none',
-              fontWeight: 600,
-              fontSize: '1.05rem',
-              boxShadow: '0 2px 8px rgba(99,102,241,0.10)',
-              transition: 'background 0.2s',
-              display: 'inline-block',
-            }}>Email Support</Link>
-            <Link href="tel:8630900119" style={{
-              background: '#2563eb',
-              color: '#fff',
-              padding: '0.55rem 1.3rem',
-              borderRadius: '0.7rem',
-              textDecoration: 'none',
-              fontWeight: 600,
-              fontSize: '1.05rem',
-              boxShadow: '0 2px 8px rgba(37,99,235,0.10)',
-              transition: 'background 0.2s',
-              display: 'inline-block',
-            }}>Call Support</Link>
+                         <Link href="mailto:sameer754811@gmail.com" style={{
+               background: '#D2691E',
+               color: '#fff',
+               padding: '0.55rem 1.3rem',
+               borderRadius: '0.7rem',
+               textDecoration: 'none',
+               fontWeight: 600,
+               fontSize: '1.05rem',
+               boxShadow: '0 2px 8px rgba(210,105,30,0.10)',
+               transition: 'background 0.2s',
+               display: 'inline-block',
+             }}>Email Support</Link>
+             <Link href="tel:8630900119" style={{
+               background: '#A0522D',
+               color: '#fff',
+               padding: '0.55rem 1.3rem',
+               borderRadius: '0.7rem',
+               textDecoration: 'none',
+               fontWeight: 600,
+               fontSize: '1.05rem',
+               boxShadow: '0 2px 8px rgba(160,82,45,0.10)',
+               transition: 'background 0.2s',
+               display: 'inline-block',
+             }}>Call Support</Link>
           </div>
           <div style={{ marginTop: '1.1rem', color: '#64748b', fontSize: '0.98rem' }}>
             We&apos;re here to support you!
