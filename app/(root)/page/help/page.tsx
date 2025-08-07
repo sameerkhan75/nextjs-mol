@@ -31,11 +31,16 @@ export default function HelpPage() {
           alignItems: 'center',
           marginBottom: '1.5rem',
         }}>
-          <span style={{
-            fontSize: '3.2rem',
-            marginBottom: '0.5rem',
-            color: '#6366f1',
-          }}>🛟</span>
+          <img 
+            src="/icons/Adobe Express - file.png" 
+            alt="Adobe Express Logo"
+            style={{
+              width: '4rem',
+              height: '4rem',
+              marginBottom: '0.5rem',
+              objectFit: 'contain',
+            }}
+          />
           <h1 style={{
             fontSize: '2.3rem',
             fontWeight: 900,
