@@ -39,7 +39,7 @@ export default function CustomerServicePage() {
           marginBottom: '1.5rem',
         }}>
           <Image
-            src="/images/Adobe Express - file.png"
+            src="/icons/Adobe Express - file.png"
             alt="Moltres Logo"
             width={120}
             height={120}
