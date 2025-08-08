@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 //update this file
 export default function CustomerServicePage() {
   return (
@@ -33,6 +34,21 @@ export default function CustomerServicePage() {
         position: 'relative',
         zIndex: 2,
       }}>
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '1.5rem',
+        }}>
+          <Image
+            src="/images/Untitled design.png"
+            alt="Moltres Logo"
+            width={120}
+            height={120}
+            style={{
+              borderRadius: '50%',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            }}
+          />
+        </div>
         <h1 style={{
           fontSize: '2.2rem',
           fontWeight: 700,
