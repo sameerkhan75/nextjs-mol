@@ -2,7 +2,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import {
   getProductBySlug,
 } from '@/lib/actions/product.actions'
-
+//change the ui of product discription section bruh
 import ProductPrice from '@/components/shared/product/product-price'
 import ProductGallery from '@/components/shared/product/product-gallary'
 import { Separator } from '@/components/ui/separator'
