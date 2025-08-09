@@ -29,44 +29,42 @@ const ProductPrice = ({
   return plain ? (
     formatCurrency(price)
   ) : listPrice == 0 ? (
-    <div className={cn('text-3xl', className)}>
+    <div className={cn('text-4xl font-bold text-gray-900', className)}>
       {formatCurrency(price)}
     </div>
   ) : isDeal ? (
-    <div className='space-y-2'>
-      <div className='flex justify-center items-center gap-2'>
-        <span className='bg-red-700 rounded-sm p-1 text-white text-sm font-semibold'>
-          {discountPercent}% Off
+    <div className='space-y-4'>
+      <div className='flex items-center gap-3'>
+        <span className='bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-semibold'>
+          {discountPercent}% OFF
         </span>
-        <span className='text-red-700 text-xs font-bold'>
-          Limited time deal
+        <span className='text-red-600 text-sm font-medium'>
+          Limited time offer
         </span>
       </div>
-      <div
-        className={`flex ${
-          forListing && 'justify-center'
-        } items-center gap-2`}
-      >
-        <div className={cn('text-3xl', className)}>
+      <div className='space-y-2'>
+        <div className={cn('text-4xl font-bold text-gray-900', className)}>
           {formatCurrency(price)}
         </div>
-        <div className='text-muted-foreground text-xs py-2'>
-          Was:{' '}
+        <div className='text-gray-500 text-sm'>
           <span className='line-through'>{formatCurrency(listPrice)}</span>
+          <span className='ml-2 text-gray-400'>was the price</span>
         </div>
       </div>
     </div>
   ) : (
-    <div className=''>
-      <div className='flex justify-center gap-3'>
-        <div className='text-3xl text-orange-700'>-{discountPercent}%</div>
-        <div className={cn('text-3xl', className)}>
+    <div className='space-y-4'>
+      <div className='flex items-center gap-3'>
+        <div className='bg-gradient-to-r from-orange-400 to-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold'>
+          -{discountPercent}%
+        </div>
+        <div className={cn('text-4xl font-bold text-gray-900', className)}>
           {formatCurrency(price)}
         </div>
       </div>
-      <div className='text-muted-foreground text-xs py-2'>
-        List price:{' '}
+      <div className='text-gray-500 text-sm'>
         <span className='line-through'>{formatCurrency(listPrice)}</span>
+        <span className='ml-2 text-gray-400'>original price</span>
       </div>
     </div>
   )

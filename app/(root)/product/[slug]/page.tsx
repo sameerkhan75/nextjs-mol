@@ -2,7 +2,6 @@ import { Card, CardContent } from '@/components/ui/card'
 import {
   getProductBySlug,
 } from '@/lib/actions/product.actions'
-//change the ui of product discription section bruh
 import ProductPrice from '@/components/shared/product/product-price'
 import ProductGallery from '@/components/shared/product/product-gallary'
 import { Separator } from '@/components/ui/separator'
@@ -41,76 +40,129 @@ export default async function ProductDetails(props: {
   const distance = player ? player.distance : null;
 
   return (
-    <div>
-      <section>
-        <div className='grid grid-cols-1 md:grid-cols-5  '>
-          <div className='col-span-2'>
-            {product.images && product.images.length > 0 && (
-              <ProductGallery images={product.images} />
-            )}
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 p-8">
+            {/* Product Images - Left Side */}
+            <div className="lg:col-span-7">
+              {product.images && product.images.length > 0 && (
+                <div className="bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl p-4">
+                  <ProductGallery images={product.images} />
+                </div>
+              )}
+            </div>
 
-          <div className='flex w-full flex-col gap-2 md:p-5 col-span-2'>
-            <div className='flex flex-col gap-3'>
-              <p className='p-medium-16 rounded-full bg-grey-500/10   text-grey-500'>
-                Brand {product.brand} {product.category}
-              </p>
-              <h1 className='font-bold text-lg lg:text-xl'>
+            {/* Product Info - Center */}
+            <div className="lg:col-span-3 space-y-6">
+              {/* Brand & Category */}
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-medium">
+                {product.brand} • {product.category}
+              </div>
+
+              {/* Product Title */}
+              <h1 className="text-3xl font-bold text-gray-900 leading-tight">
                 {product.name}
               </h1>
-              <Separator />
-              <div className='flex flex-col gap-3 sm:flex-row sm:items-center'>
-                <div className='flex gap-3'>
-                  <ProductPrice
-                    price={product.price}
-                    listPrice={product.listPrice}
-                    isDeal={product.tags.includes('todays-deal')}
-                    forListing={false}
-                  />
+
+              {/* Pricing Section */}
+              <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-6 border border-green-200">
+                <ProductPrice
+                  price={product.price}
+                  listPrice={product.listPrice}
+                  isDeal={product.tags.includes('todays-deal')}
+                  forListing={false}
+                />
+              </div>
+
+              {/* Description */}
+              <div className="space-y-3">
+                <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                  About this item
+                </h3>
+                <p className="text-gray-600 leading-relaxed text-base">
+                  {product.description}
+                </p>
+              </div>
+
+              {/* Additional Info */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-center p-4 bg-gray-50 rounded-lg">
+                  <div className="text-2xl font-bold text-blue-600">✓</div>
+                  <div className="text-sm text-gray-600 mt-1">Verified</div>
+                </div>
+                <div className="text-center p-4 bg-gray-50 rounded-lg">
+                  <div className="text-2xl font-bold text-green-600">🚚</div>
+                  <div className="text-sm text-gray-600 mt-1">Local Pickup</div>
                 </div>
               </div>
             </div>
-            <div>
-              {/* Color and size selection removed */}
-            </div>
-            <Separator className='my-2' />
-            <div className='flex flex-col gap-2'>
-              <p className='p-bold-20 text-grey-600'>Description:</p>
-              <p className='p-medium-16 lg:p-regular-18'>
-                {product.description}
-              </p>
-            </div>
-          </div>
-          <div>
-            <Card>
-              <CardContent className='p-4 flex flex-col  gap-4'>
-                <ProductPrice price={product.price} />
 
-                <div className="flex items-center space-x-2 mt-2">
-                  <DiscordContact discordId={`${product.userId}#0000`} />
-                </div>
-                {distance && (
-                  <div className="text-right font-bold text-gray-700">
-                    {distance}km away
+            {/* Seller Info - Right Side */}
+            <div className="lg:col-span-2">
+              <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-blue-50">
+                <CardContent className="p-6 space-y-6">
+                  {/* Price Display */}
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-900">
+                      ₹{product.price.toLocaleString()}
+                    </div>
+                    {product.listPrice > product.price && (
+                      <div className="text-sm text-gray-500 line-through">
+                        ₹{product.listPrice.toLocaleString()}
+                      </div>
+                    )}
                   </div>
-                )}
-                {product.countInStock > 0 && product.countInStock <= 3 && (
-                  <div className='text-destructive font-bold'>
-                    {`Only ${product.countInStock} left in stock - order soon`}
+
+                  {/* Discord Contact */}
+                  <div className="space-y-3">
+                    <div className="text-sm font-medium text-gray-700 text-center">
+                      Contact seller on Discord
+                    </div>
+                    <div className="flex justify-center">
+                      <DiscordContact discordId={`${product.userId}#0000`} />
+                    </div>
                   </div>
-                )}
-                {product.countInStock !== 0 ? (
-                  <div className='text-green-700 text-xl'>Available for pickup</div>
-                ) : (
-                  <div className='text-destructive text-xl'>
-                    Sold out
+
+                  {/* Distance */}
+                  {distance && (
+                    <div className="text-center p-3 bg-blue-100 rounded-lg">
+                      <div className="text-sm font-medium text-blue-800">
+                        📍 {distance}km away
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Stock Status */}
+                  {product.countInStock > 0 && product.countInStock <= 3 && (
+                    <div className="text-center p-3 bg-orange-100 rounded-lg">
+                      <div className="text-sm font-medium text-orange-800">
+                        ⚠️ Only {product.countInStock} left
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Availability */}
+                  <div className="text-center">
+                    {product.countInStock !== 0 ? (
+                      <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                        <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                        Available for pickup
+                      </div>
+                    ) : (
+                      <div className="inline-flex items-center px-4 py-2 bg-red-100 text-red-800 rounded-full text-sm font-medium">
+                        <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                        Sold out
+                      </div>
+                    )}
                   </div>
-                )}
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   )
 }
