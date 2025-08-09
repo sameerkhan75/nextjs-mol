@@ -65,7 +65,6 @@ const ProductCard = ({
         isDeal={product.tags.includes('todays-deal')}
         price={product.price}
         listPrice={product.listPrice}
-        forListing
       />
       <div className="text-sm text-blue-700 mt-1">
         -- to buy this product message on {product.userId}#0000
