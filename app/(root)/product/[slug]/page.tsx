@@ -3,7 +3,6 @@ import {
   getProductBySlug,
 } from '@/lib/actions/product.actions'
 
-import SelectVariant from '@/components/shared/product/select-variant'
 import ProductPrice from '@/components/shared/product/product-price'
 import ProductGallery from '@/components/shared/product/product-gallary'
 import { Separator } from '@/components/ui/separator'
@@ -28,10 +27,6 @@ export default async function ProductDetails(props: {
   params: Promise<{ slug: string }>
   searchParams: Promise<{ page: string; color: string; size: string }>
 }) {
-  const searchParams = await props.searchParams
-
-  const { color, size } = searchParams
-
   const params = await props.params
 
   const { slug } = params
