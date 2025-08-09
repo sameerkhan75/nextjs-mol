@@ -76,14 +76,7 @@ export default async function ProductDetails(props: {
               </div>
             </div>
             <div>
-
-
-              
-              <SelectVariant
-                product={product}
-                size={size || product.sizes[0]}
-                color={color || product.colors[0]}
-              />
+              {/* Color and size selection removed */}
             </div>
             <Separator className='my-2' />
             <div className='flex flex-col gap-2'>
