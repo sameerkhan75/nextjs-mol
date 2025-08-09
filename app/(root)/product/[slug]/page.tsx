@@ -70,7 +70,6 @@ export default async function ProductDetails(props: {
                   price={product.price}
                   listPrice={product.listPrice}
                   isDeal={product.tags.includes('todays-deal')}
-                  forListing={false}
                 />
               </div>
 
