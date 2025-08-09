@@ -4,7 +4,6 @@ import {
 } from '@/lib/actions/product.actions'
 import ProductPrice from '@/components/shared/product/product-price'
 import ProductGallery from '@/components/shared/product/product-gallary'
-import { Separator } from '@/components/ui/separator'
 import DiscordContact from "./DiscordContact";
 import { mockPlayers } from "@/lib/mockPlayers";
 

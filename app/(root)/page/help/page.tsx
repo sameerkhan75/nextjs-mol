@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function HelpPage() {
   return (
@@ -31,12 +32,12 @@ export default function HelpPage() {
           alignItems: 'center',
           marginBottom: '1.5rem',
         }}>
-          <img 
+          <Image 
             src="/icons/Adobe Express - file.png" 
             alt="Adobe Express Logo"
+            width={64}
+            height={64}
             style={{
-              width: '4rem',
-              height: '4rem',
               marginBottom: '0.5rem',
               objectFit: 'contain',
             }}
