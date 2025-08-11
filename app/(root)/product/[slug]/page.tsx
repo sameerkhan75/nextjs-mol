@@ -41,8 +41,8 @@ export default async function ProductDetails(props: {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <section className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 p-8">
+        <section className="bg-white rounded-3xl shadow-lg overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 p-10">
             {/* Product Images - Left Side */}
             <div className="lg:col-span-7">
               {product.images && product.images.length > 0 && (
@@ -70,6 +70,7 @@ export default async function ProductDetails(props: {
                   price={product.price}
                   listPrice={product.listPrice}
                   isDeal={product.tags.includes('todays-deal')}
+                  className="break-words"
                 />
               </div>
 

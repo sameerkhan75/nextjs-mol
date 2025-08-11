@@ -27,12 +27,12 @@ const ProductPrice = ({
   return plain ? (
     formatCurrency(price)
   ) : listPrice == 0 ? (
-    <div className={cn('text-4xl font-bold text-gray-900', className)}>
+    <div className={cn('text-3xl md:text-4xl font-bold text-gray-900', className)}>
       {formatCurrency(price)}
     </div>
   ) : isDeal ? (
     <div className='space-y-4'>
-      <div className='flex items-center gap-3'>
+      <div className='flex items-center gap-3 flex-wrap'>
         <span className='bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-semibold'>
           {discountPercent}% OFF
         </span>
@@ -41,7 +41,7 @@ const ProductPrice = ({
         </span>
       </div>
       <div className='space-y-2'>
-        <div className={cn('text-4xl font-bold text-gray-900', className)}>
+        <div className={cn('text-3xl md:text-4xl font-bold text-gray-900', className)}>
           {formatCurrency(price)}
         </div>
         <div className='text-gray-500 text-sm'>
@@ -52,11 +52,11 @@ const ProductPrice = ({
     </div>
   ) : (
     <div className='space-y-4'>
-      <div className='flex items-center gap-3'>
+      <div className='flex items-center gap-3 flex-wrap'>
         <div className='bg-gradient-to-r from-orange-400 to-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold'>
           -{discountPercent}%
         </div>
-        <div className={cn('text-4xl font-bold text-gray-900', className)}>
+        <div className={cn('text-3xl md:text-4xl font-bold text-gray-900', className)}>
           {formatCurrency(price)}
         </div>
       </div>
