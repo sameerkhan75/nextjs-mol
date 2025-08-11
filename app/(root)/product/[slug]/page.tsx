@@ -98,9 +98,9 @@ export default async function ProductDetails(props: {
             </div>
 
             {/* Seller Info - Right Side */}
-            <div className="lg:col-span-2">
-              <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-blue-50">
-                <CardContent className="p-6 space-y-6">
+            <div className="lg:col-span-2 h-full flex flex-col">
+              <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-blue-50 h-full flex flex-col">
+                <CardContent className="p-6 space-y-6 flex flex-col h-full justify-between">
                   {/* Price Display */}
                   <div className="text-center">
                     <div className="text-2xl font-bold text-gray-900">

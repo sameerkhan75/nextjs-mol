@@ -12,21 +12,16 @@ export default function DiscordContact({ discordId }: { discordId: string }) {
   };
 
   return (
-    <div className="flex items-center space-x-2 mt-2">
-      <span className="text-sm text-blue-600 font-medium">Message me on Discord:</span>
-      <span className="text-sm font-mono bg-blue-100 text-blue-800 px-2 py-0.5 rounded">{discordId}</span>
+    <div className="flex flex-col items-center space-y-2 mt-2">
       <button
         type="button"
-        className="p-1 rounded hover:bg-blue-200 transition"
+        className="px-4 py-2 bg-blue-600 text-white rounded font-semibold hover:bg-blue-700 transition text-sm"
         onClick={handleCopy}
         aria-label="Copy Discord ID"
       >
-        {copied ? (
-          <span className="text-xs text-green-600 font-semibold">Copied!</span>
-        ) : (
-          <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
-        )}
+        {copied ? "Copied!" : "Message me on Discord"}
       </button>
+      <span className="text-sm font-mono bg-blue-100 text-blue-800 px-2 py-0.5 rounded select-all mt-1">{discordId}</span>
     </div>
   );
 } 
