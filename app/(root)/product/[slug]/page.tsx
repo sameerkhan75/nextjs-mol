@@ -31,7 +31,9 @@ export default async function ProductDetails(props: {
 
   const product = await getProductBySlug(slug)
 
- 
+  if (!product) {
+    return <div>Product not found</div>;
+  }
 
   const player = mockPlayers.find(p => p.userId === product.userId);
   const distance = player ? player.distance : null;
