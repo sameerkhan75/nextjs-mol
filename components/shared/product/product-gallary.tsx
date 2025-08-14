@@ -9,15 +9,15 @@ export default function ProductGallery({ images }: { images: string[] }) {
   const [selectedImage, setSelectedImage] = useState(0)
   
   return (
-    <div className='flex gap-6'>
+    <div className='flex flex-col lg:flex-row gap-4 lg:gap-6'>
       {/* Thumbnail Sidebar */}
-      <div className='flex flex-col gap-3'>
+      <div className='flex lg:flex-col gap-3 order-2 lg:order-1'>
         {images.map((image, index) => (
           <button
             key={index}
             onClick={() => setSelectedImage(index)}
             onMouseOver={() => setSelectedImage(index)}
-            className={`group relative overflow-hidden rounded-xl transition-all duration-300 ${
+            className={`group relative overflow-hidden rounded-xl transition-all duration-300 flex-shrink-0 ${
               selectedImage === index
                 ? 'ring-2 ring-blue-500 ring-offset-2 scale-105'
                 : 'ring-1 ring-gray-200 hover:ring-blue-300 hover:scale-105'
@@ -38,9 +38,9 @@ export default function ProductGallery({ images }: { images: string[] }) {
       </div>
 
       {/* Main Image */}
-      <div className='flex-1'>
+      <div className='flex-1 order-1 lg:order-2'>
         <Zoom>
-          <div className='relative h-[600px] bg-white rounded-2xl overflow-hidden shadow-lg'>
+          <div className='relative h-[400px] lg:h-[500px] xl:h-[600px] bg-white rounded-2xl overflow-hidden shadow-lg'>
             <Image
               src={images[selectedImage]}
               alt={`Product image ${selectedImage + 1}`}
