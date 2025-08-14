@@ -7,7 +7,7 @@ import ProductGallery from '@/components/shared/product/product-gallary'
 import DiscordContact from "./DiscordContact";
 import { mockPlayers } from "@/lib/mockPlayers";
 
-//improve the product display section
+//write the read me file
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>
 }) {
