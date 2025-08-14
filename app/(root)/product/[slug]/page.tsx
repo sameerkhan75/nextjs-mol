@@ -6,7 +6,6 @@ import ProductPrice from '@/components/shared/product/product-price'
 import ProductGallery from '@/components/shared/product/product-gallary'
 import DiscordContact from "./DiscordContact";
 import { mockPlayers } from "@/lib/mockPlayers";
-
 //improve the product display section
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>
@@ -43,9 +42,9 @@ export default async function ProductDetails(props: {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <section className="bg-white rounded-3xl shadow-lg overflow-hidden">
-          <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 lg:gap-8 p-6 lg:p-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 p-10">
             {/* Product Images - Left Side */}
-            <div className="xl:col-span-6 lg:col-span-7">
+            <div className="lg:col-span-7">
               {product.images && product.images.length > 0 && (
                 <div className="bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl p-4">
                   <ProductGallery images={product.images} />
@@ -54,14 +53,14 @@ export default async function ProductDetails(props: {
             </div>
 
             {/* Product Info - Center */}
-            <div className="xl:col-span-4 lg:col-span-5 space-y-6">
+            <div className="lg:col-span-3 space-y-6">
               {/* Brand & Category */}
               <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-medium">
                 {product.brand} • {product.category}
               </div>
 
               {/* Product Title */}
-              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 leading-tight">
+              <h1 className="text-3xl font-bold text-gray-900 leading-tight">
                 {product.name}
               </h1>
 
@@ -100,9 +99,9 @@ export default async function ProductDetails(props: {
             </div>
 
             {/* Seller Info - Right Side */}
-            <div className="xl:col-span-2 lg:col-span-12 xl:col-span-2">
-              <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-blue-50 h-fit">
-                <CardContent className="p-6 space-y-6">
+            <div className="lg:col-span-2 h-full flex flex-col">
+              <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-blue-50 h-full flex flex-col">
+                <CardContent className="p-6 space-y-6 flex flex-col h-full justify-between">
                   {/* Price Display */}
                   <div className="text-center">
                     <div className="text-2xl font-bold text-gray-900">
