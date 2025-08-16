@@ -21,6 +21,7 @@
 ## 🚀 Features
 
 * 🕹️ **Game Trading**: List and trade used PS/Xbox titles with other nearby gamers.
+* ➕ **Add Products**: Users can add products for sale, which are visible to people nearby.
 * 🗺️ **Map-Based Discovery**: Locate nearby sellers using integrated Map APIs and MongoDB geospatial queries.
 * 🤝 **Team Matchmaking**: Automatically find and connect with players who enjoy the same games for teaming up.
 
