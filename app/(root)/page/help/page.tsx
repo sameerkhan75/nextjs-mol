@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-
+//add the authorization feature correctly
 export default function HelpPage() {
   return (
     <div style={{
