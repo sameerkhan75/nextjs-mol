@@ -70,8 +70,7 @@ export default function HelpPage() {
                          <li><strong>How do I add a product?</strong><br />Go to <Link href="/product/add" style={{ color: '#A0522D', textDecoration: 'underline', transition: 'color 0.2s' }}>Add Product</Link> and fill out the form.</li>
              <li><strong>How can I see my listed products?</strong><br />Visit <Link href="/your-products" style={{ color: '#A0522D', textDecoration: 'underline', transition: 'color 0.2s' }}>Your Products</Link> to view your listings.</li>
              <li><strong>What if I receive a wrong or fake product?</strong><br />Contact <Link href="mailto:sameer754811@gmail.com" style={{ color: '#A0522D', textDecoration: 'underline', transition: 'color 0.2s' }}>Customer Service</Link> immediately with details and evidence.</li>
-            <li><strong>How do I reset my password?</strong><br />Use the password reset link on the sign-in page or contact support.</li>
-            <li><strong>How long does it take to get a response?</strong><br />We respond to all queries within 24 hours.</li>
+
           </ul>
         </div>
                  <div style={{
