@@ -1,5 +1,6 @@
 export default function AboutUsPage() {
   //improve the ui of about and help page
+  //does the read me file
   return (
     <div style={{
       minHeight: '100vh',
