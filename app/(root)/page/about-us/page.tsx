@@ -11,7 +11,7 @@ export default function AboutUsPage() {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/85 to-white/90" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/15 to-white/20" />
 
       <div className="relative z-[1] mx-auto max-w-5xl px-4 py-12 md:py-16">
         <div className="mb-8 text-center">
