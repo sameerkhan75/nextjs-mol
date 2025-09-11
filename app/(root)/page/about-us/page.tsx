@@ -16,24 +16,28 @@ export default function AboutUsPage() {
 
       <div className="relative z-[1] mx-auto max-w-5xl px-4 py-12 md:py-16">
         <div className="mb-8 text-center">
-          <TextType 
-            as="h1"
-            text={["About Moltres", "Welcome to Moltres", "Your Gaming Marketplace"]}
-            typingSpeed={75}
-            pauseDuration={1500}
-            showCursor={true}
-            cursorCharacter="|"
-            className="text-3xl font-bold tracking-tight md:text-4xl"
-          />
-          <TextType 
-            as="p"
-            text={["A social marketplace for console gamers to buy, sell, and connect.", "Connect with gamers worldwide.", "Trade your favorite games safely."]}
-            typingSpeed={50}
-            pauseDuration={2000}
-            showCursor={true}
-            cursorCharacter="|"
-            className="text-muted-foreground mx-auto mt-3 max-w-2xl text-base md:text-lg"
-          />
+          <div className="mb-4">
+            <TextType 
+              as="h1"
+              text={["About Moltres", "Welcome to Moltres", "Your Gaming Marketplace"]}
+              typingSpeed={75}
+              pauseDuration={1500}
+              showCursor={true}
+              cursorCharacter="|"
+              className="text-4xl font-bold tracking-tight md:text-5xl"
+            />
+          </div>
+          <div>
+            <TextType 
+              as="p"
+              text={["A social marketplace for console gamers to buy, sell, and connect.", "Connect with gamers worldwide.", "Trade your favorite games safely."]}
+              typingSpeed={50}
+              pauseDuration={2000}
+              showCursor={true}
+              cursorCharacter="|"
+              className="text-muted-foreground mx-auto max-w-2xl text-lg md:text-xl"
+            />
+          </div>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
