@@ -28,7 +28,7 @@ export default function CustomerServicePage() {
         margin: '0 auto',
         padding: '2rem',
         borderRadius: '1rem',
-        background: 'rgba(255,255,255,0.95)',
+        background: 'rgba(255,255,255,0.75)',
         boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
         fontFamily: 'Inter, sans-serif',
         position: 'relative',
