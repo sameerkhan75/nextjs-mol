@@ -24,6 +24,7 @@
     "dotenv": "^16.5.0",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
+    "gsap": "^3.13.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.511.0",
     "mongodb": "^5.9.2",
