@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import TextType from '@/components/TextType'
-
+//improve moltres support page and ui
 export default function AboutUsPage() {
   return (
     <div
