@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useCallback, useMemo } from 'react';
+import Image from 'next/image';
 import './ProfileCard.css';
 
 const DEFAULT_BEHIND_GRADIENT =
@@ -24,6 +25,17 @@ const adjust = (value: number, fromMin: number, fromMax: number, toMin: number, 
   round(toMin + ((toMax - toMin) * (value - fromMin)) / (fromMax - fromMin));
 
 const easeInOutCubic = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+
+// Extend the Window interface for DeviceMotionEvent
+declare global {
+  interface Window {
+    DeviceMotionEvent: {
+      new (type: string, eventInitDict?: DeviceMotionEventInit): DeviceMotionEvent;
+      prototype: DeviceMotionEvent;
+      requestPermission?: () => Promise<string>;
+    };
+  }
+}
 
 interface ProfileCardProps {
   avatarUrl?: string;
@@ -215,14 +227,14 @@ const ProfileCardComponent = ({
 
     const handleClick = () => {
       if (!enableMobileTilt || location.protocol !== 'https:') return;
-      if (typeof window.DeviceMotionEvent.requestPermission === 'function') {
+      if ('DeviceMotionEvent' in window && window.DeviceMotionEvent.requestPermission) {
         window.DeviceMotionEvent.requestPermission()
-          .then(state => {
+          .then((state: string) => {
             if (state === 'granted') {
               window.addEventListener('deviceorientation', deviceOrientationHandler);
             }
           })
-          .catch(err => console.error(err));
+          .catch((err: Error) => console.error(err));
       } else {
         window.addEventListener('deviceorientation', deviceOrientationHandler);
       }
@@ -263,7 +275,7 @@ const ProfileCardComponent = ({
       '--grain': grainUrl ? `url(${grainUrl})` : 'none',
       '--behind-gradient': showBehindGradient ? (behindGradient ?? DEFAULT_BEHIND_GRADIENT) : 'none',
       '--inner-gradient': innerGradient ?? DEFAULT_INNER_GRADIENT
-    }),
+    } as React.CSSProperties),
     [iconUrl, grainUrl, showBehindGradient, behindGradient, innerGradient]
   );
 
@@ -278,11 +290,12 @@ const ProfileCardComponent = ({
           <div className="pc-shine" />
           <div className="pc-glare" />
           <div className="pc-content pc-avatar-content">
-            <img
+            <Image
               className="avatar"
               src={avatarUrl}
               alt={`${name || 'User'} avatar`}
-              loading="lazy"
+              fill
+              style={{ objectFit: 'cover' }}
               onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';
@@ -292,10 +305,12 @@ const ProfileCardComponent = ({
               <div className="pc-user-info">
                 <div className="pc-user-details">
                   <div className="pc-mini-avatar">
-                    <img
+                    <Image
                       src={miniAvatarUrl || avatarUrl}
                       alt={`${name || 'User'} mini avatar`}
-                      loading="lazy"
+                      width={48}
+                      height={48}
+                      style={{ objectFit: 'cover' }}
                       onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
                         const target = e.target as HTMLImageElement;
                         target.style.opacity = '0.5';
