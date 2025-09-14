@@ -1,9 +1,23 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import ProfileCard from './ProfileCard';
 //update this file
 export default function CustomerServicePage() {
   return (
+    <>
+      <style jsx>{`
+        .customer-service-container {
+          flex-direction: row;
+        }
+        
+        @media (max-width: 768px) {
+          .customer-service-container {
+            flex-direction: column;
+            justify-content: center;
+          }
+        }
+      `}</style>
     <div style={{
       minHeight: '100vh',
       backgroundImage: "url('/images/noo.jpeg')",
@@ -13,8 +27,10 @@ export default function CustomerServicePage() {
       position: 'relative',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
-    }}>
+      justifyContent: 'space-between',
+      padding: '2rem',
+      gap: '2rem',
+    }} className="customer-service-container">
       <div style={{
         position: 'absolute',
         top: 0,
@@ -23,9 +39,29 @@ export default function CustomerServicePage() {
         height: '100%',
         zIndex: 1,
       }} />
+      
+      {/* Profile Card */}
+      <div style={{ position: 'relative', zIndex: 2 }}>
+        <ProfileCard
+          name="Sameer"
+          title="Customer Support"
+          handle="sameer754811"
+          status="Online"
+          contactText="Contact Me"
+          avatarUrl="/images/profile-pic.jpg"
+          miniAvatarUrl="/images/profile-pic.jpg"
+          showUserInfo={true}
+          enableTilt={true}
+          enableMobileTilt={false}
+          behindGradient={undefined}
+          innerGradient={undefined}
+          onContactClick={() => window.location.href = 'mailto:sameer754811@gmail.com'}
+        />
+      </div>
+
+      {/* Support Content */}
       <div style={{
         maxWidth: 500,
-        margin: '0 auto',
         padding: '2rem',
         borderRadius: '1rem',
         background: 'rgba(255,255,255,0.75)',
@@ -96,5 +132,6 @@ export default function CustomerServicePage() {
         </div>
       </div>
     </div>
+    </>
   );
 } 
