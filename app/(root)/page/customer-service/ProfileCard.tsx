@@ -319,6 +319,8 @@ const ProfileCardComponent = ({
                     />
                   </div>
                   <div className="pc-user-text">
+                    <div className="pc-name">{name}</div>
+                    {title && <div className="pc-title">{title}</div>}
                     <div className="pc-handle">@{handle}</div>
                     <div className="pc-status">{status}</div>
                   </div>
@@ -335,12 +337,7 @@ const ProfileCardComponent = ({
               </div>
             )}
           </div>
-          <div className="pc-content">
-            <div className="pc-details">
-              <h3>{name}</h3>
-              <p>{title}</p>
-            </div>
-          </div>
+          {/* Remove top overlay text to keep face clear */}
         </div>
       </section>
     </div>

@@ -324,7 +324,21 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  gap: 6px;
+  gap: 2px;
+}
+
+.pc-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.1;
+}
+
+.pc-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.1;
 }
 
 .pc-handle {
@@ -372,40 +386,7 @@
   mix-blend-mode: luminosity;
 }
 
-.pc-details {
-  width: 100%;
-  position: absolute;
-  top: 3em;
-  display: flex;
-  flex-direction: column;
-}
-
-.pc-details h3 {
-  font-weight: 600;
-  margin: 0;
-  font-size: min(5svh, 3em);
-  margin: 0;
-  background-image: linear-gradient(to bottom, #fff, #6f6fbe);
-  background-size: 1em 1.5em;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
-}
-
-.pc-details p {
-  font-weight: 600;
-  position: relative;
-  top: -12px;
-  white-space: nowrap;
-  font-size: 16px;
-  margin: 0 auto;
-  width: min-content;
-  background-image: linear-gradient(to bottom, #fff, #4a4ac0);
-  background-size: 1em 1.5em;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
-}
+/* Removed top overlay text styles to avoid covering face */
 
 @keyframes glow-bg {
   0% {
