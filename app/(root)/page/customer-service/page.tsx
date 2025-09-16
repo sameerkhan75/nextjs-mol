@@ -46,7 +46,7 @@ export default function CustomerServicePage() {
       <div style={{ position: 'relative', zIndex: 2 }}>
         <ProfileCard
           name="Sameer"
-          title="Customer Support"
+          title=""
           handle="sameer754811"
           status="Online"
           contactText="Contact Me"
