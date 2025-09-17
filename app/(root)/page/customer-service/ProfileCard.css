@@ -35,6 +35,12 @@
   touch-action: none;
 }
 
+.pc-card-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .pc-card-wrapper::before {
   content: '';
   position: absolute;
@@ -91,6 +97,19 @@
     radial-gradient(100% 100% at 50% 50%, #00c1ffff 1%, #073aff00 76%),
     conic-gradient(from 124deg at 50% 50%, #c137ffff 0%, #07c6ffff 40%, #07c6ffff 60%, #c137ffff 100%);
   overflow: hidden;
+}
+
+.pc-support-badge {
+  white-space: nowrap;
+  align-self: center;
+  padding: 10px 14px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  font-weight: 700;
+  letter-spacing: 0.2px;
 }
 
 .pc-card:hover,
@@ -415,6 +434,12 @@
 }
 
 @media (max-width: 768px) {
+  .pc-card-wrapper {
+    display: grid;
+    justify-items: center;
+    gap: 12px;
+  }
+
   .pc-card {
     height: 70svh;
     max-height: 450px;
@@ -459,6 +484,12 @@
   .pc-contact-btn {
     padding: 6px 12px;
     font-size: 11px;
+  }
+
+  .pc-support-badge {
+    justify-self: center;
+    padding: 8px 12px;
+    font-size: 12px;
   }
 }
 
@@ -510,6 +541,11 @@
     padding: 5px 10px;
     font-size: 10px;
     border-radius: 50px;
+  }
+
+  .pc-support-badge {
+    font-size: 11px;
+    padding: 7px 10px;
   }
 }
 

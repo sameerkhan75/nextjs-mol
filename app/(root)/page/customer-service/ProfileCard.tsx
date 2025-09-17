@@ -340,6 +340,9 @@ const ProfileCardComponent = ({
           {/* Remove top overlay text to keep face clear */}
         </div>
       </section>
+      <div className="pc-support-badge" aria-label="Moltres support">
+        Moltres Support
+      </div>
     </div>
   );
 };
