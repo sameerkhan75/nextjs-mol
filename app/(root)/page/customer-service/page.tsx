@@ -29,7 +29,7 @@ export default function CustomerServicePage() {
       position: 'relative',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
       padding: '2rem',
       gap: '2rem',
     }} className="customer-service-container">
